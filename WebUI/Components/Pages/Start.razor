@@ -1,0 +1,42 @@
+@page "/start"
+@inject NavigationManager NavigationManager
+
+<PageTitle>Carothar - Start</PageTitle>
+
+<h1>Start</h1>
+
+<p>
+    To begin, you can join a game with a key below or create a new session with the
+    button.
+</p>
+
+
+<div>
+    <button @onclick="createSession">Create Game</button>
+</div>
+
+<div>
+    <input @bind="userKey" />
+    <button @onclick="joinSession">Join Game</button>
+</div>
+
+@code
+{
+    string userKey;
+        
+    // Creates a new session and automatically joins the join page
+    void createSession()
+    {
+        Session s = SessionManager.AddSession();
+        NavigationManager.NavigateTo($"/join?id={s.Key}");
+    }
+
+    // Join session
+    void joinSession()
+    {
+        if (userKey != null || userKey != "")
+        {
+            NavigationManager.NavigateTo($"/join?id={userKey}");
+        }
+    }
+}
