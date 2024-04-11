@@ -2,7 +2,7 @@ namespace Logic;
 
 public class SessionManager
 {
-    public static Dictionary<string, Session> Sessions = new();
+    private static Dictionary<string, Session> Sessions = new();
 
     // Returns reference to the newly created session
     public static Session AddSession()
@@ -20,5 +20,10 @@ public class SessionManager
     {
         // TODO: Set up error and case handling for out of bounds cases
         return Sessions[id];
+    }
+
+    public static bool SessionIdValid(string id)
+    {
+        return Sessions.ContainsKey(id);
     }
 }
