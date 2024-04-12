@@ -7,7 +7,7 @@ namespace Logic;
 public abstract class AbilityBase {
     // Value stuff
     private int _v { get; set; } // The private version of value
-    protected int Value {
+    public int Value {
         get { return _v; }
         set {
             // Cannot be over 30 (for stats reasons)
@@ -23,12 +23,6 @@ public abstract class AbilityBase {
     public int Modifier => _modifier;
 
     public bool SavingThrow { get; set; }
-
-    // Returns the actual bonus based off of an ability
-    public int returnStatModifier(int value, Skill skill, int proficiency) {
-        return Modifier + skill.Mod + (skill.ProficiencyMultiplier * proficiency);
-    }
-    
 }
 
 // The individual skills (proficiencies) that are a part of the AbilityBase
@@ -37,6 +31,8 @@ public class Skill {
     public int Mod { get; set; } = 0;
     public int ProficiencyMultiplier { get; set; }
     private PlayerStats parent { get; set; }
+
+    public int Modifier => Mod + (ProficiencyMultiplier * parent.Proficiency);
 
     public Skill(PlayerStats parent) {
         this.parent = parent;

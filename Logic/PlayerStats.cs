@@ -4,7 +4,18 @@ namespace Logic;
 using System.Collections.ObjectModel;
 
 // Used for tuple stats for level info
-using ClassInfoEntry = (Class Class, int Level, Dice HitDice, int Total, int Amount);
+/// <summary>
+///     Class that displays information for the class. Does not multiclass
+///     (use a list) for that!
+/// </summary>
+public class ClassInfoEntry
+{
+    public Class Class { get; private set; }
+    public int Level { get; private set; }
+    public Dice HitDice { get; private set; }
+    public int HitDiceTotal { get; private set; }
+    public int HitDiceAmount { get; private set; }
+}
 /// <summary>
 ///     The stats for a standard D&D character. Documentation available on 
 ///     GitHub.
@@ -28,14 +39,18 @@ public class PlayerStats
 
     // Base stats
     public int Level { get; private set; }
-    public ObservableCollection<(Class Class, int Level)> ClassList;
     public Race Race { get; set; }
     public int InitiativeBonus { get; set; }
     public int Speed { get; set; } // In feet
-
     // A list that has the functionality of notifying an event when it is modified
-    public ObservableCollection<ClassInfoEntry> ClassInfo;
-    public int Proficiency; // Prof bonus
+    private ObservableCollection<ClassInfoEntry> _classInfo;
+    public ObservableCollection<ClassInfoEntry> ClassInfo => _classInfo;
+
+    // Number Stats
+    public int HP { get; set; } // Health points
+    public int TotalHP { get; set; }
+    public int AC { get; set; } // Armor class
+    public int Proficiency { get; private set; } // Prof bonus
 
     // Main Stats
     public STR STR;
@@ -46,12 +61,22 @@ public class PlayerStats
     public CHA CHA;
 
     public PlayerStats() {
-        ClassInfo = new();
-        ClassInfo.CollectionChanged += (_, _) => {
+        _classInfo = new();
+        _classInfo.CollectionChanged += (_, _) => {
+            // Resets the level
             Level = 0;
             foreach(ClassInfoEntry entry in ClassInfo) {
                 Level += entry.Level;
             }
+
+            // Sets the proficiency bonus
+            Level = Level switch {
+                <= 4 => 2,
+                <= 8 => 3,
+                <= 12 => 4,
+                <= 16 => 5,
+                _ => 6
+            };
         };
     }
 
