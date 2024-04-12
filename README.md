@@ -6,9 +6,11 @@
 - PlayerStats: Class with D&D character info
     - int Version: Your players version
     - string PlayerName: Your name
-    - string Descripton: Character description
-    - string Alignment: Your characters alignment
-    - TODO
+    - string Name: Your characters name
+    - string Descripton
+    - string Alignment
+    - string Height
+- TODO: Everything else
 
 - Ability
 - Defaults: Class with a set of default characters 

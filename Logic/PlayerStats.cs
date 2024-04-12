@@ -1,7 +1,10 @@
 namespace Logic;
 
+// For the event notifications
 using System.Collections.ObjectModel;
 
+// Used for tuple stats for level info
+using ClassInfoEntry = (Class Class, int Level, Dice HitDice, int Total, int Amount);
 /// <summary>
 ///     The stats for a standard D&D character. Documentation available on 
 ///     GitHub.
@@ -17,6 +20,7 @@ public class PlayerStats
     // or even use the original version if updated
     public int Version { get; } = 0;
     public string PlayerName { get; set; }
+    public string Name { get; set; }
     public string Description { get; set; } // Anything else that is not used
     public string Alignment { get; set; }
     public string Height { get; set; }
@@ -24,14 +28,13 @@ public class PlayerStats
 
     // Base stats
     public int Level { get; private set; }
-
     public ObservableCollection<(Class Class, int Level)> ClassList;
     public Race Race { get; set; }
     public int InitiativeBonus { get; set; }
     public int Speed { get; set; } // In feet
 
     // A list that has the functionality of notifying an event when it is modified
-    public ObservableCollection<(Class Class, Dice HitDice, int Total, int Amount)> ClassInfo;
+    public ObservableCollection<ClassInfoEntry> ClassInfo;
     public int Proficiency; // Prof bonus
 
     // Main Stats
@@ -44,9 +47,10 @@ public class PlayerStats
 
     public PlayerStats() {
         ClassInfo = new();
-        ClassInfo.CollectionChanged += () => {
-            foreach() {
-
+        ClassInfo.CollectionChanged += (_, _) => {
+            Level = 0;
+            foreach(ClassInfoEntry entry in ClassInfo) {
+                Level += entry.Level;
             }
         };
     }
