@@ -4,13 +4,13 @@ namespace Logic;
 // AbilityBase is a set of utilities for any abilities
 // Already includes a private base _value (1-20) and _modifier bonus (-5 to 5)
 // with setters taht handle things
-public abstract class AbilityBase
-{
+public abstract class AbilityBase {
     // Value stuff
     private int _v { get; set; } // The private version of value
     protected int Value {
         get { return _v; }
         set {
+            // Cannot be over 30 (for stats reasons)
             if (value > 30) _v = 30;
             else if (value < 1) _v = 1;
             else _v = value;
@@ -31,8 +31,9 @@ public abstract class AbilityBase
     
 }
 
-public class Skill
-{
+// The individual skills (proficiencies) that are a part of the AbilityBase
+// derived classes
+public class Skill {
     public int Mod { get; set; } = 0;
     public int ProficiencyMultiplier { get; set; }
     private PlayerStats parent { get; set; }
@@ -49,8 +50,7 @@ public class Skill
     }
 }
 
-public class STR : AbilityBase
-{
+public class STR : AbilityBase {
     // Modifier and value is already defined
     public Skill Athletics;
 
@@ -66,8 +66,7 @@ public class STR : AbilityBase
     }
 }
 
-public class DEX : AbilityBase
-{
+public class DEX : AbilityBase {
     public Skill Acrobatics;
     public Skill SleightOfHand;
     public Skill Stealth;
@@ -99,8 +98,7 @@ public class CON : AbilityBase {
     }
 };
 
-public class INT : AbilityBase
-{
+public class INT : AbilityBase {
     public Skill Arcana;
     public Skill History;
     public Skill Investigation;
@@ -127,8 +125,7 @@ public class INT : AbilityBase
     }
 }
 
-public class WIS : AbilityBase
-{
+public class WIS : AbilityBase {
     public Skill AnimalHandling;
     public Skill Insight;
     public Skill Medicine;
@@ -155,8 +152,7 @@ public class WIS : AbilityBase
     }
 }
 
-public class CHA : AbilityBase
-{
+public class CHA : AbilityBase {
     public Skill Deception;
     public Skill Intimidation;
     public Skill Performance;
