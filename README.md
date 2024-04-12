@@ -2,8 +2,7 @@
 
 ### Reference is not complete but can still be used
 
-You should have a basic knowledge in D&D stats to use the Logic library.
-+ indicates that it is a method.
+You should have a basic knowledge in D&D stats to use the Logic library. \+ indicates that it is a method.
 
 ## Logic Library Reference
 - PlayerStats: Class with D&D character info
