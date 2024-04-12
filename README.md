@@ -10,10 +10,13 @@
     - string Descripton
     - string Alignment
     - string Height
+    - string Meta: Meta data that can be used for ease with the database. Can
+    be used for anything from serialized json to coninued character data. Cannot
+    be used by the user.
 - TODO: Everything else
 
 - Ability
 - Defaults: Class with a set of default characters 
-    - HumanFighter: Human fighter named steve
+    - HumanFighter: Human fighter named Steve
 
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/h3Mc9z4G)
