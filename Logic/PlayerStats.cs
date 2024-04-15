@@ -10,11 +10,11 @@ using System.Collections.ObjectModel;
 /// </summary>
 public class ClassInfoEntry
 {
-    public Class Class { get; private set; }
-    public int Level { get; private set; }
-    public Dice HitDice { get; private set; }
-    public int HitDiceTotal { get; private set; }
-    public int HitDiceAmount { get; private set; }
+    public Class Class { get; set; }
+    public int Level { get; set; }
+    public Dice HitDice { get; set; }
+    public int HitDiceTotal { get; set; }
+    public int HitDiceAmount { get; set; }
 }
 /// <summary>
 ///     The stats for a standard D&D character. Documentation available on 
@@ -70,7 +70,7 @@ public class PlayerStats
             }
 
             // Sets the proficiency bonus
-            Level = Level switch {
+            Proficiency = Level switch {
                 <= 4 => 2,
                 <= 8 => 3,
                 <= 12 => 4,

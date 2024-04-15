@@ -4,7 +4,7 @@ namespace Logic;
 // AbilityBase is a set of utilities for any abilities
 // Already includes a private base _value (1-20) and _modifier bonus (-5 to 5)
 // with setters taht handle things
-public abstract class AbilityBase {
+public class AbilityBase {
     // Value stuff
     private int _v { get; set; } // The private version of value
     public int Value {
@@ -30,12 +30,14 @@ public abstract class AbilityBase {
 public class Skill {
     public int Mod { get; set; } = 0;
     public int ProficiencyMultiplier { get; set; }
-    private PlayerStats parent { get; set; }
+    private PlayerStats superParent { get; set; }
+    private AbilityBase parent { get; set; }
 
     public int Modifier => Mod + (ProficiencyMultiplier * parent.Proficiency);
 
-    public Skill(PlayerStats parent) {
+    public Skill(PlayerStats superParent, AbilityBase parent) {
         this.parent = parent;
+        this.superParent = superParent
     }
 
     // Proficiency multiplier is the amount you want your proficiency to be
