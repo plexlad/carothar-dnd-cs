@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject NavigationManager nav
 
 <PageTitle>Carothar - Home</PageTitle>
 
@@ -8,4 +9,18 @@
 Welcome to Carothar, a collaborative app for real time viewing of D&D characters that allows collaboration between the players and DMs. Start by pressing the link below.
 </p>
 
-<a href="start">Start</a>
+<button @onclick="signin">Login</button>
+
+<button @onclick="signup">Sign Up</button>
+
+@code {
+    void signin()
+    {
+        nav.NavigateTo("/login");
+    }
+
+    void signup()
+    {
+        nav.NavigateTo("/signup");
+    }
+}

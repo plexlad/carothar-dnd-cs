@@ -1,4 +1,4 @@
-namespace Logic;
+namespace Logic.Game;
 
 // For the event notifications
 using System.Collections.ObjectModel;

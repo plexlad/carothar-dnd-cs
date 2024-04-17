@@ -1,4 +1,4 @@
-namespace Logic;
+namespace Logic.Game;
 // This includes the definition for Ability base and the standard D&D classes
 
 // AbilityBase is a set of utilities for any abilities
@@ -11,7 +11,7 @@ public class AbilityBase {
         get { return _v; }
         set {
             // Cannot be over 30 (for stats reasons)
-            if (value > 30) _v = 30;
+            if (value > 20) _v = 20;
             else if (value < 1) _v = 1;
             else _v = value;
             
@@ -33,16 +33,16 @@ public class Skill {
     private PlayerStats superParent { get; set; }
     private AbilityBase parent { get; set; }
 
-    public int Modifier => Mod + (ProficiencyMultiplier * parent.Proficiency);
+    public int Modifier => Mod + parent.Modifier + (ProficiencyMultiplier * superParent.Proficiency);
 
     public Skill(PlayerStats superParent, AbilityBase parent) {
         this.parent = parent;
-        this.superParent = superParent
+        this.superParent = superParent;
     }
 
     // Proficiency multiplier is the amount you want your proficiency to be
     // multiplied by. 1 for proficiency, 2 for mastery, etc.
-    public Skill(PlayerStats parent, int profMultiplier, int mod) : this(parent) {
+    public Skill(PlayerStats superParent, AbilityBase parent, int profMultiplier, int mod) : this(superParent, parent) {
         Mod = mod;
         ProficiencyMultiplier = profMultiplier;
     }
@@ -53,14 +53,14 @@ public class STR : AbilityBase {
     public Skill Athletics;
 
     public STR(
-        PlayerStats parent,
+        PlayerStats superParent,
         int value,
-        int savingThrow,
+        bool savingThrow,
         int athleticsMultiplier
     ) {
         Value = value;
-        SavingThrow = SavingThrow;
-        Athletics = new(parent, athleticsMultiplier, 0);
+        SavingThrow = savingThrow;
+        Athletics = new(superParent, this, athleticsMultiplier, 0);
     }
 }
 
@@ -70,7 +70,7 @@ public class DEX : AbilityBase {
     public Skill Stealth;
 
     public DEX(
-        PlayerStats parent,
+        PlayerStats superParent,
         int value,
         bool savingThrow,
         int acrobaticsMultiplier,
@@ -79,9 +79,9 @@ public class DEX : AbilityBase {
     ) {
         Value = value;
         SavingThrow = savingThrow;
-        Acrobatics = new(parent, acrobaticsMultiplier, 0);
-        SleightOfHand = new(parent, sleightOfHandMultiplier, 0);
-        Stealth = new(parent, stealthModifier, 0);
+        Acrobatics = new(superParent, this, acrobaticsMultiplier, 0);
+        SleightOfHand = new(superParent, this, sleightOfHandMultiplier, 0);
+        Stealth = new(superParent, this, stealthModifier, 0);
     }
 }
 
@@ -104,7 +104,7 @@ public class INT : AbilityBase {
     public Skill Religion;
 
     public INT(
-        PlayerStats parent,
+        PlayerStats superParent,
         int value,
         bool savingThrow,
         int arcanaModifier,
@@ -115,11 +115,11 @@ public class INT : AbilityBase {
     ) {
         Value = value;
         SavingThrow = savingThrow;
-        Arcana = new(parent, arcanaModifier, 0);
-        History = new(parent, historyModifier, 0);
-        Investigation = new(parent, investigationModifier, 0);
-        Nature = new(parent, natureModifier, 0);
-        Religion = new(parent, religionModifier, 0);
+        Arcana = new(superParent, this, arcanaModifier, 0);
+        History = new(superParent, this, historyModifier, 0);
+        Investigation = new(superParent, this, investigationModifier, 0);
+        Nature = new(superParent, this, natureModifier, 0);
+        Religion = new(superParent, this, religionModifier, 0);
     }
 }
 
@@ -131,7 +131,7 @@ public class WIS : AbilityBase {
     public Skill Survival;
 
     public WIS(
-        PlayerStats parent,
+        PlayerStats superParent,
         int value,
         bool savingThrow,
         int animalHandlingModifier,
@@ -142,11 +142,11 @@ public class WIS : AbilityBase {
     ) {
         Value = value;
         SavingThrow = savingThrow;
-        AnimalHandling = new(parent, animalHandlingModifier, 0);
-        Insight = new(parent, insightModifier, 0);
-        Medicine = new(parent, medicineModifier, 0);
-        Perception = new(parent, perceptionModifier, 0);
-        Survival = new(parent, survivalModifier, 0);
+        AnimalHandling = new(superParent, this, animalHandlingModifier, 0);
+        Insight = new(superParent, this, insightModifier, 0);
+        Medicine = new(superParent, this, medicineModifier, 0);
+        Perception = new(superParent, this, perceptionModifier, 0);
+        Survival = new(superParent, this, survivalModifier, 0);
     }
 }
 
@@ -157,7 +157,7 @@ public class CHA : AbilityBase {
     public Skill Persuasion;
 
     public CHA(
-        PlayerStats parent,
+        PlayerStats superParent,
         int value,
         bool savingThrow,
         int deceptionModifier,
@@ -167,9 +167,9 @@ public class CHA : AbilityBase {
     ) {
         Value = value;
         SavingThrow = savingThrow;
-        Deception = new(parent, deceptionModifier, 0);
-        Intimidation = new(parent, intimidationModifier, 0);
-        Performance = new(parent, performanceModifier, 0);
-        Persuasion = new(parent, persuasionModifier, 0);
+        Deception = new(superParent, this, deceptionModifier, 0);
+        Intimidation = new(superParent, this, intimidationModifier, 0);
+        Performance = new(superParent, this, performanceModifier, 0);
+        Persuasion = new(superParent, this, persuasionModifier, 0);
     }
 }

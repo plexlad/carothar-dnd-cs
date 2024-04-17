@@ -1,0 +1,41 @@
+@page "/login"
+@inject NavigationManager nav
+@using Logic.Login
+
+<PageTitle>Carothar - Log In</PageTitle>
+
+<h1>Log In</h1>
+
+@if (displayAlert)
+{
+    <div class=@alertClass>@alertText</div>
+}
+
+<form>
+    <label for="username">Username</label><br>
+    <input @bind="name" type="text" name="username" id="username" placeholder="johndoe123" required /><br>
+    <label for="password">password</label><br>
+    <input @bind="pass" type="password" name="password" id="password" placeholder="p@ssword" required /><br>
+    <label for="image">Profile Image (optional)</label><br>
+    <input @onclick="login" type="submit" value="Submit" />
+</form>
+
+@code {
+    string name;
+    string pass;
+
+    bool displayAlert = false;
+    string alertText;
+    string alertClass;
+    
+    void login()
+    {
+        User? user = LoginManager.Instance.LogIn(name, pass);
+        if (user is null)
+        {
+            displayAlert = true;
+            InvokeAsync(StateHasChanged);
+        }
+        nav.NavigateTo("/join");
+    }
+}

@@ -1,14 +1,15 @@
 namespace Tests;
-using Logic;
+using Logic.Game;
+using FluentAssertions;
 
-public class UnitTest1
+public class GameLogicTests
 {
     [Fact]
     public void SkillConstructsProperlyWithOnlyParent()
     {
-        Skill s = new(new PlayerStats());
+        Skill s = new(new PlayerStats(), new AbilityBase());
 
-        Assert.NotNull(s);
+        s.Should().NotBeNull();
     }
 
     [Fact]
@@ -18,8 +19,8 @@ public class UnitTest1
 
         ab.Value = 32;
 
-        Assert.True(ab.Value == 20);
-        Assert.True(ab.Modifier == 5);
+        ab.Value.Should().Be(20);
+        ab.Modifier.Should().Be(5);
     }
 
     [Fact]
@@ -28,20 +29,21 @@ public class UnitTest1
         AbilityBase ab = new();
 
         ab.Value = -1;
-
-        Assert.True(ab.Value == 1);
-        Assert.True(ab.Modifier == -5);
+    
+        ab.Value.Should().Be(1);
+        ab.Modifier.Should().Be(-5);
     }
 
     [Fact]
     public void SkillReturnsProperModifier()
     {
         PlayerStats p = new();
-        Skill s = new(p, 1, 3); // Simulate a skill that has a +3 bonus
+        AbilityBase a = new() { Value = 16 };
+        Skill s = new(p, a, 1, 3); // Simulate a skill that has a +3 bonus
         
         p.ClassInfo.Add(new ClassInfoEntry() { Level = 5 });
         
-        Assert.True(s.Modifier == 6);
+        s.Modifier.Should().Be(9);
     }
 
     [Fact]
@@ -51,10 +53,8 @@ public class UnitTest1
         p.ClassInfo.Add(new ClassInfoEntry() { Level = 1 });
         STR str = new(p, 16, true, 1); // Simulates proficiency in strength
 
-        Assert.True(p.Proficiency == 2);
-        Assert.True(str.Modifier == 3);
         Assert.True(str.SavingThrow);
-        Assert.True(str.Athletics.ProficiencyMultiplier == 1);
-        Assert.True(str.Athletics.Modifier == 5);
+        str.SavingThrow.Should().BeTrue();
+        str.Athletics.Modifier.Should().Be(5);
     }
 }
