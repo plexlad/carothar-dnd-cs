@@ -1,4 +1,9 @@
 @page "/join"
 @inject NavigationManager NavigationManager
 
-<PageTitle>Carothar - Play</PageTitle>
+<PageTitle>Carothar - Join @id</PageTitle>
+
+@code {
+    [SupplyParameterFromQuery]
+    string id { get; }
+}

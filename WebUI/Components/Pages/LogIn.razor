@@ -1,5 +1,6 @@
 @page "/login"
 @inject NavigationManager nav
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @using Logic.Login
 
 <PageTitle>Carothar - Log In</PageTitle>
@@ -11,13 +12,12 @@
     <div class=@alertClass>@alertText</div>
 }
 
-<form>
+<form @onsubmit="login">
     <label for="username">Username</label><br>
     <input @bind="name" type="text" name="username" id="username" placeholder="johndoe123" required /><br>
     <label for="password">password</label><br>
     <input @bind="pass" type="password" name="password" id="password" placeholder="p@ssword" required /><br>
-    <label for="image">Profile Image (optional)</label><br>
-    <input @onclick="login" type="submit" value="Submit" />
+    <input type="submit" value="Submit" />
 </form>
 
 @code {
@@ -34,8 +34,15 @@
         if (user is null)
         {
             displayAlert = true;
+            alertText = "Incorrect name or password. Please try again";
+            alertClass = "alert-warning";
             InvokeAsync(StateHasChanged);
+            return;
         }
-        nav.NavigateTo("/join");
+
+        // Save (or overwrite) user information to localStorage
+        localStorage.SetItem("username", user.Username);
+        localStorage.SetItem("password", user.Password);
+        nav.NavigateTo("/start");
     }
 }

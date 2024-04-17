@@ -6,7 +6,7 @@
 
 <h1>Sign Up</h1>
 
-@if (display) {
+@if (displayAlert) {
     <div class="alert-warning">@alertText</div>
 }
 
@@ -24,7 +24,7 @@
 </form>
 
 @code {
-    bool display = false;
+    bool displayAlert = false;
     string alertMode;
     string alertText;
 
@@ -39,11 +39,11 @@
         if (pass == confirm)
         {
             LoginManager.Instance.CreateNewUser(name, pass, image);
-            nav.NavigateTo("/start");
+            nav.NavigateTo("/login");
         }
         else
         {
-            display = true;
+            displayAlert = true;
             alertMode = "alert-warning";
             alertText = "Passwords must match.";
             InvokeAsync(StateHasChanged);
