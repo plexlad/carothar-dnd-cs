@@ -8,13 +8,15 @@ public class LoginTest
     [Fact]
     public void CheckIfUserIsLoggedIn()
     {
+        ICryptoService c = new PBKDF2();
         LoginManager l = new();
         string username = "jimbo";
         string password = "password";
 
-        User user = l.CreateNewUser(username, password, null);
+        l.CreateNewUser(username, password, null);
+
         l.LogIn(username, password).Should().NotBeNull();
-        l.IsLoggedIn("jimbo").Should().BeTrue();
+        l.IsLoggedIn(username).Should().BeTrue();
     }
 
     [Fact]

@@ -60,9 +60,9 @@ public class LoginManager
         if (user is not null)
         {
             // Auto log in for now
-            loggedInUsers.Add(username);
-            return user;
-            if (cryptoService.Compare(password, user?.Password))
+            // loggedInUsers.Add(username);
+            //return user;
+            if (cryptoService.Compare(hashedUserInput, user.Password))
             {
                 loggedInUsers.Add(username);
                 return user;
@@ -84,7 +84,7 @@ public class LoginManager
         if (!_users.Keys.Contains(username))
         {
             string salt = cryptoService.GenerateSalt();
-            string hashedPassword = cryptoService.Compute(username, salt);
+            string hashedPassword = cryptoService.Compute(password, salt);
 
             User user = new(username, hashedPassword);
             _users[username] = user;
