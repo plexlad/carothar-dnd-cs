@@ -1,7 +1,6 @@
 // These are the the instances of games that people can connect to
 // Use the instance manager to manage sets of instances
-
-namespace Logic;
+namespace Logic.Session;
 
 using SimpleCrypto; // Uses the random password feature for the key
 
@@ -9,6 +8,7 @@ using SimpleCrypto; // Uses the random password feature for the key
 // so users can access their character data
 public class Session
 {
+    public string Name { get; set; }
     // A key to invite people to the session
     public string Key { get; }
     // Users on the session
@@ -16,7 +16,7 @@ public class Session
 
     public Session()
     {
-        Key = RandomPassword.Generate(16); // Generates a password that users can use
+        Key = RandomPassword.Generate(16); // Generates a session id
         users = new();
     }
 }

@@ -1,3 +1,4 @@
+// WARNING: This code is very ramshackle
 namespace Logic.Login;
 
 using SimpleCrypto; // Encrytion library for VERY basic password hashing and salt
@@ -8,13 +9,13 @@ public class User
     public string Password { get; }
     public string? ProfileImageLink { get; private set; }
     // List of session keys that the player can rejoin
-    public List<string> Sessions { get; }
+    public List<string> SessionKeys { get; }
 
     public User(string username, string hashedPassword)
     {
         Username = username;
         Password = hashedPassword;
-        Sessions = new();
+        SessionKeys = new();
     }
 
     public User(string username, string hashedPassword, string? profileImageLink) : this(username, hashedPassword)
@@ -25,11 +26,11 @@ public class User
     // Adds a session key for reference
     public void AddSession(string key)
     {
-        Sessions.Add(key);
+        SessionKeys.Add(key);
     }
 }
 
-// Manages login information, such as hashing and salting as well as 
+// Manages login information, such as hashing and salting as well as userInfo
 public class LoginManager
 {
     // For public available use
@@ -39,42 +40,35 @@ public class LoginManager
     private Dictionary<string, User> _users;
     public Dictionary<string, User> Users => _users;
 
-    private List<string> loggedInUsers; // By username for simplicity
-
     ICryptoService cryptoService; // Crypto service
 
     public LoginManager()
     {
         _users = new();
-        loggedInUsers = new();
         cryptoService = new PBKDF2();
     }
 
     // Returns true if logged in successfully, false otherwise
-    public User? LogIn(string username, string password)
+    // Set hashed to true if the password is already hashed
+    public User? LogIn(string username, string password, bool hashed = false)
     {
-        User? user = _users[username];
-        string hashedUserInput = cryptoService.Compute(password);
+        User? user = null;
+
+        // If value is not valid, returns null
+        user = _users.TryGetValue(username, out user) ? user : null;
 
         // Compares the stored password$
         if (user is not null)
         {
-            // Auto log in for now
-            // loggedInUsers.Add(username);
-            //return user;
+            // Save some time by not having to compute
+            string hashedUserInput = hashed ? password : cryptoService.Compute(password);
+
             if (cryptoService.Compare(hashedUserInput, user.Password))
             {
-                loggedInUsers.Add(username);
                 return user;
             }
         }
         return null;
-    }
-
-    public bool IsLoggedIn(string username)
-    {
-        if (loggedInUsers.Contains(username)) return true;
-        return false;
     }
 
     // True if successful (could use already used username)

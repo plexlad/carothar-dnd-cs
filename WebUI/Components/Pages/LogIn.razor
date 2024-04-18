@@ -27,7 +27,7 @@
     bool displayAlert = false;
     string alertText;
     string alertClass;
-    
+
     void login()
     {
         User? user = LoginManager.Instance.LogIn(name, pass);
@@ -37,12 +37,13 @@
             alertText = "Incorrect name or password. Please try again";
             alertClass = "alert-warning";
             InvokeAsync(StateHasChanged);
-            return;
         }
-
-        // Save (or overwrite) user information to localStorage
-        localStorage.SetItem("username", user.Username);
-        localStorage.SetItem("password", user.Password);
-        nav.NavigateTo("/start");
+        else
+        {
+            // Save (or overwrite) user information to localStorage
+            InvokeAsync(async () => await localStorage.SetItemAsync("username", user.Username));
+            InvokeAsync(async () => await localStorage.SetItemAsync("password", user.Password));
+            nav.NavigateTo("/start");
+        }
     }
 }

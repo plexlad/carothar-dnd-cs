@@ -1,7 +1,74 @@
 @page "/start"
+@inject NavigationManager nav
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@using Logic.Login
+@using Logic.Session
 
 <PageTitle>Carothar - Start</PageTitle>
 
 <h1>Start</h1>
 
+@if (loaded) {
+    <p>@username</p>
+    <h2>Sessions</h2>
+    <ul>
+    @foreach(Session session in userSessions) {
+        <li>@session.Name</li>
+    }
+    </ul>
+    @if (!addSessionEnable) {
+        <button @onclick="newSession">New Session</button>
+    }
+    else
+    {
+        <form @onsubmit="addSession">
+            <label for="SessionName"></label>
+            <input type="text" name="Session Name" id="SessionName" @bind="sessionName"/>
+            <input type="submit" name="Add" />
+        </form>
+    }
+} else if (loaded) {
+    <p>Invalid user info. Please log in.</p>
+} else {
+    <p>Loading...</p>
+}
 
+@code {
+    bool loaded = false;
+    string username;
+    string password;
+    User? user = null;
+
+    bool addSessionEnable = false;
+    string sessionName;
+    List<Session> userSessions = new();
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Load base data
+        username = await localStorage.GetItemAsync<string>("username");
+        password = await localStorage.GetItemAsync<string>("password");
+        user = LoginManager.Instance.LogIn(username, password, true);
+        loaded = true;
+
+        // Load the users session data
+        foreach(string key in user.SessionKeys)
+        {
+            userSessions.Add(SessionManager.Instance.GetSessionFromId(key));
+        }
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    void newSession()
+    {
+        addSessionEnable = true;
+    }
+
+    void addSession()
+    {
+        Session newSession = SessionManager.Instance.AddSession(sessionName);
+        userSessions.Add(newSession);
+        addSessionEnable = false;
+    }
+}
