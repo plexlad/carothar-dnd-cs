@@ -1,4 +1,4 @@
-namespace Logic;
+namespace Logic.Game;
 
 public enum Dice
 {

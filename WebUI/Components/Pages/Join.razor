@@ -1,9 +1,45 @@
 @page "/join"
-@inject NavigationManager NavigationManager
+@inject NavigationManager nav
+@using Logic.Session
+@using Logic.Game
 
-<PageTitle>Carothar - Join @id</PageTitle>
+<PageTitle>Carothar - Join</PageTitle>
+
+<div>@key</div>
+
+@if (loaded && (session is not null)) {
+    <ul>
+        @foreach(string characterName in session.Characters.Keys.ToList()) {
+            <li>@characterName</li>
+        }
+        <li><button @onclick="addCharacter">Add Character & Continue</button></li>
+    </ul>
+} else if (loaded) {
+    <p>Invalid key</p>
+} else {
+    <p>Loading...</p>
+}
 
 @code {
+    bool loaded = false;
+    bool addCharacterToggle = false;
+
+    string characterName;
+
+    Session? session;
+
     [SupplyParameterFromQuery]
-    string id { get; }
+    public string key { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        session = SessionManager.Instance.GetSessionFromKey(key);
+        loaded = true;
+        InvokeAsync(StateHasChanged);
+    }
+
+    void addCharacter()
+    {
+        nav.NavigateTo($"/create?key={session.Key}");
+    }
 }

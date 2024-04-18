@@ -1,0 +1,55 @@
+@page "/create"
+@inject NavigationManager nav
+@using Logic.Session
+@using Logic.Game
+
+<p>@key</p>
+
+<h1>Create New Character</h1>
+@if (loaded && (session is not null)) {
+    <form @onsubmit="createCharacter">
+        <label for="name">Name</label><br>
+        <input @bind="characterName" type="text" id="name" name="name" placeholder="John"/><br>
+        <label for="playerName">Player's Name</label><br>
+        <input @bind="playerName" type="text" id="playerName" name="Player Name" placeholder="Jimbo"/><br>
+        <label for="characterSelect">Choose Default</label><br>
+        <select @bind="characterSelect" name="Character Select" id="characterSelect">
+            <option value="humanfighter">Human Fighter</option>
+        </select><br>
+        <input type="submit" value="Create"/>
+    </form>
+} else if (loaded) {
+    <p>Invalid key.</p>
+} else {
+    <p>Loading...</p>
+}
+
+@code {
+    bool loaded = false;
+
+    string characterName;
+    string characterSelect;
+    string playerName;
+
+    Session? session;
+
+    [SupplyParameterFromQuery]
+    public string key { get; set; }
+
+    protected override void OnInitialized()
+    {
+        loaded = true;
+        session = SessionManager.Instance.GetSessionFromKey(key);
+        InvokeAsync(StateHasChanged);
+    }
+
+    void createCharacter()
+    {
+        PlayerStats character = characterSelect switch {
+            "humanfighter" => Defaults.HumanFighter(characterName, playerName),
+            _ => Defaults.HumanFighter(characterName, playerName)
+        };
+
+        
+    }
+}

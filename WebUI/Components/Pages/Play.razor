@@ -1,0 +1,10 @@
+@page "/play"
+
+<h1>Play</h1>
+
+@code {
+    [SupplyParameterFromQuery]
+    string key { get; set; } // The session key
+    [SupplyParameterFromQuery]
+    string char { get; set; } // The key of the character
+}

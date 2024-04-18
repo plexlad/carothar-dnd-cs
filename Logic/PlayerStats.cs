@@ -2,6 +2,7 @@ namespace Logic.Game;
 
 // For the event notifications
 using System.Collections.ObjectModel;
+using SimpleCrypto; // For key generation
 
 // Used for tuple stats for level info
 /// <summary>
@@ -14,7 +15,6 @@ public class ClassInfoEntry
     public int Level { get; set; }
     public Dice HitDice { get; set; }
     public int HitDiceTotal { get; set; }
-    public int HitDiceAmount { get; set; }
 }
 /// <summary>
 ///     The stats for a standard D&D character. Documentation available on 
@@ -30,12 +30,14 @@ public class PlayerStats
     // The version can be used to update characters to the new version,
     // or even use the original version if updated
     public int Version { get; } = 0;
+    public string Key { get; }
     public string PlayerName { get; set; }
     public string Name { get; set; }
     public string Description { get; set; } // Anything else that is not used
     public string Alignment { get; set; }
     public string Height { get; set; }
-    public string Meta { get; private set; } // Just in case (Could be serialized JSON?)
+    public List<string> Inventory { get; set; } = new();
+    public string? Meta { get; private set; } // Just in case (Could be serialized JSON?)
 
     // Base stats
     public int Level { get; private set; }
@@ -78,6 +80,9 @@ public class PlayerStats
                 _ => 6
             };
         };
+        
+        // Generate a random key
+        Key = RandomPassword.Generate(16, PasswordGroup.Lowercase, PasswordGroup.Uppercase);
     }
 
     // Returns the base modifier for an ability score

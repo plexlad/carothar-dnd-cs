@@ -2,6 +2,7 @@
 // Use the instance manager to manage sets of instances
 namespace Logic.Session;
 
+using Logic.Game;
 using SimpleCrypto; // Uses the random password feature for the key
 
 // Session probably wasn't the greatest name, but it is persistantly stored
@@ -9,14 +10,31 @@ using SimpleCrypto; // Uses the random password feature for the key
 public class Session
 {
     public string Name { get; set; }
-    // A key to invite people to the session
-    public string Key { get; }
-    // Users on the session
-    public List<string> users;
+    public string Key { get; } // Used to invite and work with people
+    public string CreatedBy { get; set; } // Username of person who created this session
+    public List<string> Users; // Users on the session
+    public Dictionary<string, PlayerStats> Characters;
 
-    public Session()
+    public event Action SessionUpdated;
+
+    public Session(string name, string createdBy)
     {
-        Key = RandomPassword.Generate(16); // Generates a session id
-        users = new();
+        Name = name;
+        // Generates a unique key
+        Key = RandomPassword.Generate(16, PasswordGroup.Lowercase, PasswordGroup.Uppercase);
+        CreatedBy = createdBy;
+        Users = new();
+        Characters = new();
+    }
+
+    public void AddNewCharacter(PlayerStats character)
+    {
+        Characters.Add(character.Key, character);
+    }
+
+    public PlayerStats? GetCharacter(string name)
+    {
+        PlayerStats character;
+        return Characters.TryGetValue(name, out character!) ? character : null;
     }
 }

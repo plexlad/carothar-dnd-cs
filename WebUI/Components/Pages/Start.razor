@@ -10,10 +10,14 @@
 
 @if (loaded) {
     <p>@username</p>
+    <button @onclick="signOut">Sign Out</button>
     <h2>Sessions</h2>
     <ul>
     @foreach(Session session in userSessions) {
-        <li>@session.Name</li>
+        <div style="block-inline">
+            <li>@session.Name (created by @session.CreatedBy)</li>
+            <button @onclick="() => joinSession(session.Key)">Join</button>
+        </div>
     }
     </ul>
     @if (!addSessionEnable) {
@@ -54,10 +58,17 @@
         // Load the users session data
         foreach(string key in user.SessionKeys)
         {
-            userSessions.Add(SessionManager.Instance.GetSessionFromId(key));
+            userSessions.Add(SessionManager.Instance.GetSessionFromKey(key));
         }
 
         InvokeAsync(StateHasChanged);
+    }
+
+    void signOut()
+    {
+        InvokeAsync(async () => await localStorage.RemoveItemAsync("username"));
+        InvokeAsync(async () => await localStorage.RemoveItemAsync("password"));
+        nav.NavigateTo("/login");
     }
 
     void newSession()
@@ -67,8 +78,13 @@
 
     void addSession()
     {
-        Session newSession = SessionManager.Instance.AddSession(sessionName);
+        Session newSession = SessionManager.Instance.AddSession(sessionName, username);
         userSessions.Add(newSession);
         addSessionEnable = false;
+    }
+
+    void joinSession(string id)
+    {
+        nav.NavigateTo($"/join?key={id}");
     }
 }
