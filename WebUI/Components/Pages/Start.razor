@@ -26,8 +26,8 @@
     else
     {
         <form @onsubmit="addSession">
-            <label for="SessionName"></label>
-            <input type="text" name="Session Name" id="SessionName" @bind="sessionName"/>
+            <label for="sessionName">Name</label>
+            <input type="text" name="Session Name" id="sessionName" @bind="sessionName" required />
             <input type="submit" name="Add" value="Create Session"/>
         </form>
     }
@@ -57,13 +57,17 @@
             username = null;
             password = null;
         }
+
         user = LoginManager.Instance.LogIn(username, password, true);
         loaded = true;
 
         // Load the users session data
-        foreach(string key in user.SessionKeys)
+        if (user is not null)
         {
-            userSessions.Add(SessionManager.Instance.GetSessionFromKey(key));
+            foreach(string key in user.SessionKeys)
+            {
+                userSessions.Add(SessionManager.Instance.GetSessionFromKey(key));
+            }
         }
 
         InvokeAsync(StateHasChanged);
@@ -84,8 +88,8 @@
     void addSession()
     {
         Session newSession = SessionManager.Instance.AddSession(sessionName, username);
-        userSessions.Add(newSession);
-        addSessionEnable = false;
+        user.AddSessionKey(newSession.Key);
+        joinSession(newSession.Key);
     }
 
     void joinSession(string id)

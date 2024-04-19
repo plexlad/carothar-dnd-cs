@@ -27,7 +27,10 @@ public class SessionManager
     // This can be used for players to connect to a session
     public Session? GetSessionFromKey(string key)
     {
-        Session? output = Sessions.TryGetValue(key, out output) ? output : null;
+        Session? output;
+        bool isNotNull;
+        isNotNull = Sessions.TryGetValue(key, out output);
+        output = isNotNull ? output : null;
         return output;
     }
 

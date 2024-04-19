@@ -3,24 +3,25 @@
 @using Logic.Session
 @using Logic.Game
 
-<p>@key - @chardata</p>
+<p>@key</p>
 
 <h1>Play</h1>
 
-@if (loaded && (character is not null) && (session is not null)) {
+@if (loaded && (character is not null)) {
+    <button @onclick="saveCharacter">Save</button>
     <h2>@character.Name</h2>
     <p>@character.Description</p>
     <ul>
         <li>@character.Race</li>
-        <li>@character.Height</li>
-        <li>@character.Alignment</li>
+        <li><input type="text" @bind="character.Height" /></li>
+        <li><input type="text" @bind="character.Alignment" /> </li>
         <li>Level @character.Level</li>
         <li>@character.ReturnClassList()</li>
     </ul>
 
     <ul>
-        <li>HP @character.HP / @character.TotalHP</li>
-        <li>AC @character.AC</li>
+        <li>HP<input type="number" @bind="character.HP"/> / <input type="number" @bind="character.TotalHP"/></li>
+        <li>AC <input type="number" @bind="character.AC"/></li>
         <li>Proficiency: @character.Proficiency</li>
     </ul>
 
@@ -50,9 +51,21 @@
     {
         session = SessionManager.Instance.GetSessionFromKey(key);
         character = session.GetCharacter(chardata);
+        
+        Action stateChange = () => {
+            InvokeAsync(StateHasChanged);
+        };
+    
+
+        if (session is not null) session.SessionUpdated += stateChange;
 
         loaded = true;
 
         InvokeAsync(StateHasChanged);
+    }
+
+    void saveCharacter()
+    {
+        session.UpdateSessionData();
     }
 }

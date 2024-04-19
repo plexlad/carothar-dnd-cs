@@ -27,6 +27,11 @@ public class Session
         Characters = new();
     }
 
+    public void UpdateSessionData()
+    {
+        SessionUpdated?.Invoke();
+    }
+
     public void AddCharacter(PlayerStats character)
     {
         Characters.Add(character.Key, character);

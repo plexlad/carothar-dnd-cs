@@ -24,7 +24,7 @@ public class User
     }
 
     // Adds a session key for reference
-    public void AddSession(string key)
+    public void AddSessionKey(string key)
     {
         SessionKeys.Add(key);
     }
