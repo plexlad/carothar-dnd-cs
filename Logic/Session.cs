@@ -27,14 +27,14 @@ public class Session
         Characters = new();
     }
 
-    public void AddNewCharacter(PlayerStats character)
+    public void AddCharacter(PlayerStats character)
     {
         Characters.Add(character.Key, character);
     }
 
-    public PlayerStats? GetCharacter(string name)
+    public PlayerStats? GetCharacter(string key)
     {
         PlayerStats character;
-        return Characters.TryGetValue(name, out character!) ? character : null;
+        return Characters.TryGetValue(key, out character!) ? character : null;
     }
 }

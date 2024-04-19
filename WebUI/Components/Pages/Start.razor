@@ -28,7 +28,7 @@
         <form @onsubmit="addSession">
             <label for="SessionName"></label>
             <input type="text" name="Session Name" id="SessionName" @bind="sessionName"/>
-            <input type="submit" name="Add" />
+            <input type="submit" name="Add" value="Create Session"/>
         </form>
     }
 } else if (loaded) {
@@ -39,8 +39,8 @@
 
 @code {
     bool loaded = false;
-    string username;
-    string password;
+    string? username;
+    string? password;
     User? user = null;
 
     bool addSessionEnable = false;
@@ -50,8 +50,13 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         // Load base data
-        username = await localStorage.GetItemAsync<string>("username");
-        password = await localStorage.GetItemAsync<string>("password");
+        try {
+            username = await localStorage.GetItemAsync<string>("username");
+            password = await localStorage.GetItemAsync<string>("password");
+        } catch {
+            username = null;
+            password = null;
+        }
         user = LoginManager.Instance.LogIn(username, password, true);
         loaded = true;
 

@@ -12,6 +12,7 @@ public class Defaults
             Height = "6'0\"",
             
             Race = Race.Human,
+            Background = Background.Soldier,
             InitiativeBonus = 0,
             Speed = 35,
             HP = 10,

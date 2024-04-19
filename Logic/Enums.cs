@@ -27,7 +27,7 @@ public enum Race
     Tortle,
 }
 
-public enum Backgrounds
+public enum Background
 {
     Hermit,
     Soldier

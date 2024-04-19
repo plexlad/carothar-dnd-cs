@@ -2,6 +2,7 @@ namespace Logic.Game;
 
 // For the event notifications
 using System.Collections.ObjectModel;
+using System.Text;
 using SimpleCrypto; // For key generation
 
 // Used for tuple stats for level info
@@ -42,6 +43,7 @@ public class PlayerStats
     // Base stats
     public int Level { get; private set; }
     public Race Race { get; set; }
+    public Background Background { get; set; }
     public int InitiativeBonus { get; set; }
     public int Speed { get; set; } // In feet
     // A list that has the functionality of notifying an event when it is modified
@@ -83,6 +85,17 @@ public class PlayerStats
         
         // Generate a random key
         Key = RandomPassword.Generate(16, PasswordGroup.Lowercase, PasswordGroup.Uppercase);
+    }
+
+    public string ReturnClassList()
+    {
+        StringBuilder output = new();
+        foreach(ClassInfoEntry info in this.ClassInfo)
+        {
+            output.Append($", {info.Class} {info.Level}");
+        }
+        // Removes the first comma and space
+        return output.ToString().Remove(0, 1);
     }
 
     // Returns the base modifier for an ability score

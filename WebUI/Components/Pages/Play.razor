@@ -1,10 +1,58 @@
 @page "/play"
+@inject NavigationManager nav
+@using Logic.Session
+@using Logic.Game
+
+<p>@key - @chardata</p>
 
 <h1>Play</h1>
 
+@if (loaded && (character is not null) && (session is not null)) {
+    <h2>@character.Name</h2>
+    <p>@character.Description</p>
+    <ul>
+        <li>@character.Race</li>
+        <li>@character.Height</li>
+        <li>@character.Alignment</li>
+        <li>Level @character.Level</li>
+        <li>@character.ReturnClassList()</li>
+    </ul>
+
+    <ul>
+        <li>HP @character.HP / @character.TotalHP</li>
+        <li>AC @character.AC</li>
+        <li>Proficiency: @character.Proficiency</li>
+    </ul>
+
+    <ul>
+    @foreach(string item in character.Inventory) {
+        <li>@item</li>
+    }
+    </ul>
+} else if (loaded) {
+    <p>Invalid key(s).</p>
+} else {
+    <p>Loading...</p>
+}
+
 @code {
+    bool loaded = false;
+
+    Session? session;
+    PlayerStats? character;
+
     [SupplyParameterFromQuery]
-    string key { get; set; } // The session key
+    public string? key { get; set; } // The session key
     [SupplyParameterFromQuery]
-    string char { get; set; } // The key of the character
+    public string? chardata { get; set; } // The key of the character
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        session = SessionManager.Instance.GetSessionFromKey(key);
+        character = session.GetCharacter(chardata);
+
+        loaded = true;
+
+        InvokeAsync(StateHasChanged);
+    }
 }

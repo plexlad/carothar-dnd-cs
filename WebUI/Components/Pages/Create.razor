@@ -9,9 +9,9 @@
 @if (loaded && (session is not null)) {
     <form @onsubmit="createCharacter">
         <label for="name">Name</label><br>
-        <input @bind="characterName" type="text" id="name" name="name" placeholder="John"/><br>
+        <input @bind="characterName" type="text" id="name" name="name" placeholder="Jimbo"/><br>
         <label for="playerName">Player's Name</label><br>
-        <input @bind="playerName" type="text" id="playerName" name="Player Name" placeholder="Jimbo"/><br>
+        <input @bind="playerName" type="text" id="playerName" name="Player Name" placeholder="Jonathan"/><br>
         <label for="characterSelect">Choose Default</label><br>
         <select @bind="characterSelect" name="Character Select" id="characterSelect">
             <option value="humanfighter">Human Fighter</option>
@@ -50,6 +50,8 @@
             _ => Defaults.HumanFighter(characterName, playerName)
         };
 
-        
+        session.AddCharacter(character);
+
+        nav.NavigateTo($"/play?key={key}&chardata={character.Key}");
     }
 }

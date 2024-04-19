@@ -9,8 +9,11 @@
 
 @if (loaded && (session is not null)) {
     <ul>
-        @foreach(string characterName in session.Characters.Keys.ToList()) {
-            <li>@characterName</li>
+        @foreach(string charKey in session.Characters.Keys.ToList()) {
+            <li>
+                <button @onclick="() => playAsCharacter(session.Characters[charKey])">Join</button>
+                @session.Characters[charKey].Name (@session.Characters[charKey].PlayerName)
+            </li>
         }
         <li><button @onclick="addCharacter">Add Character & Continue</button></li>
     </ul>
@@ -27,6 +30,7 @@
     string characterName;
 
     Session? session;
+    PlayerStats characterData;
 
     [SupplyParameterFromQuery]
     public string key { get; set; }
@@ -41,5 +45,10 @@
     void addCharacter()
     {
         nav.NavigateTo($"/create?key={session.Key}");
+    }
+
+    void playAsCharacter(PlayerStats character)
+    {
+        nav.NavigateTo($"/play?key={session.Key}&chardata={character.Key}");
     }
 }
