@@ -1,12 +1,15 @@
 namespace Logic.Game;
 // This includes the definition for Ability base and the standard D&D classes
 
+using System.Text.Json;
+using System.Text.Json.Serialization;
 // AbilityBase is a set of utilities for any abilities
 // Already includes a private base _value (1-20) and _modifier bonus (-5 to 5)
 // with setters taht handle things
 public class AbilityBase {
     // Value stuff
     private int _v { get; set; } // The private version of value
+    [JsonIgnore]
     public int Value {
         get { return _v; }
         set {
@@ -20,8 +23,9 @@ public class AbilityBase {
     }
 
     protected int _modifier { private set; get; }
+    [JsonIgnore]
     public int Modifier => _modifier;
-
+    
     public bool SavingThrow { get; set; }
 }
 
@@ -34,6 +38,8 @@ public class Skill {
     private AbilityBase parent { get; set; }
 
     public int Modifier => Mod + parent.Modifier + (ProficiencyMultiplier * superParent.Proficiency);
+
+    public Skill() {} // For json serialization
 
     public Skill(PlayerStats superParent, AbilityBase parent) {
         this.parent = parent;
@@ -50,7 +56,9 @@ public class Skill {
 
 public class STR : AbilityBase {
     // Modifier and value is already defined
-    public Skill Athletics;
+    public Skill Athletics { get; set; }
+
+    public STR() {} // For json serialization
 
     public STR(
         PlayerStats superParent,
@@ -69,6 +77,8 @@ public class DEX : AbilityBase {
     public Skill SleightOfHand;
     public Skill Stealth;
 
+    public DEX() {} // For JSON Serialization
+
     public DEX(
         PlayerStats superParent,
         int value,
@@ -86,7 +96,8 @@ public class DEX : AbilityBase {
 }
 
 // Constitution only stats are managed in the AbilityBase
-public class CON : AbilityBase { 
+public class CON : AbilityBase {
+    public CON() {} // For JSON Serialization
     public CON(
         int value,
         bool savingThrow
@@ -102,6 +113,8 @@ public class INT : AbilityBase {
     public Skill Investigation;
     public Skill Nature;
     public Skill Religion;
+
+    public INT() {} // For JSON Serialization
 
     public INT(
         PlayerStats superParent,
@@ -130,6 +143,8 @@ public class WIS : AbilityBase {
     public Skill Perception;
     public Skill Survival;
 
+    public WIS() {} // For JSON Serialization
+
     public WIS(
         PlayerStats superParent,
         int value,
@@ -155,6 +170,8 @@ public class CHA : AbilityBase {
     public Skill Intimidation;
     public Skill Performance;
     public Skill Persuasion;
+
+    public CHA() {} // For JSON Serialization
 
     public CHA(
         PlayerStats superParent,

@@ -9,21 +9,21 @@ public class PlayerStatsData
 {
     [PrimaryKey]
     public string Key { get; set; }
-    public int Version { get; set; }
-    public string PlayerName { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; } // Anything else that is not used
-    public string Alignment { get; set; }
-    public string Height { get; set; }
-    public string Inventory { get; set; }
-    public string? Meta { get; set; } // Just in case (Could be serialized JSON?)
+    public int Version;
+    public string PlayerName;
+    public string Name;
+    public string Description; // Anything else that is not used
+    public string Alignment;
+    public string Height;
+    public string Inventory;
+    public string? Meta; // Just in case (Could be serialized JSON?)
 
     // Base stats
-    public int Level { get;  set; }
-    public int Race { get; set; }
-    public int Background { get; set; }
-    public int InitiativeBonus { get; set; }
-    public int Speed { get; set; } // In feet
+    public int Level;
+    public int Race;
+    public int Background;
+    public int InitiativeBonus;
+    public int Speed; // In feet
     // A list that has the functionality of notifying an event when it is modified
     private ObservableCollection<ClassInfoEntry> _classInfo;
     public ObservableCollection<ClassInfoEntry> ClassInfo => _classInfo;

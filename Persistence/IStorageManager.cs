@@ -4,13 +4,14 @@ using Logic.Game;
 using Logic.Session;
 using Logic.Login;
 
+// TODO: Add login later
 public interface IStorageManager
 {
-    void AddCharacter(PlayerStatsData character);
-    void AddSession(SessionData session);
-    PlayerStatsData GetCharacter(string key);
-    IEnumerable<PlayerStatsData> GetSessionCharacters(string sessionKey);
-    SessionData GetSession(string key);
-    void UpdateCharacter(PlayerStatsData character);
+    void AddCharacter(PlayerStats character);
+    void AddSession(Session session);
+    PlayerStats GetCharacter(string key);
+    IEnumerable<PlayerStats> GetSessionCharacters(string sessionKey);
+    Session GetSession(string key);
+    void UpdateCharacter(PlayerStats character);
     public static IStorageManager Instance { get; } = new SQLiteStoreManager();
 }

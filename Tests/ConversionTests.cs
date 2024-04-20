@@ -15,10 +15,21 @@ public class ConversionTests
     public void ConvertFromPlayerStatsDataToPlayerStats()
     {
         STR str = new(new PlayerStats(), 10, false, 1);
+
+        JsonSerializerOptions jsonOptions = new() { // Uses the same options as conversion
+            IgnoreReadOnlyProperties = true,
+            IgnoreReadOnlyFields = true,
+            IncludeFields = true
+        };
         
         // How it is formatted
         PlayerStatsData characterData = new() {
-            STR = JsonSerializer.Serialize(str)
+            STR = JsonSerializer.Serialize(str, jsonOptions),
+            DEX = JsonSerializer.Serialize(new DEX(), jsonOptions),
+            CON = JsonSerializer.Serialize(new CON(), jsonOptions),
+            INT = JsonSerializer.Serialize(new INT(), jsonOptions),
+            WIS = JsonSerializer.Serialize(new WIS(), jsonOptions),
+            CHA = JsonSerializer.Serialize(new CHA(), jsonOptions),
         };
     
         // Tests what the attribute should be
@@ -30,7 +41,6 @@ public class ConversionTests
     public void ConvertFromPlayerStatsToPlayerStatsData()
     {
         STR str = new(new PlayerStats(), 10, false, 1);
-
         PlayerStats character = new() {
             STR = str
         };
@@ -38,5 +48,19 @@ public class ConversionTests
         PlayerStatsData characterData = Conversion.ConvertCharacter(character);
 
         characterData.STR.Should().Be(JsonSerializer.Serialize(str));
+    }
+
+    [Fact]
+    public void CharacterConversionBackwardsCompatible()
+    {
+        STR str = new(new PlayerStats(), 10, false, 1);
+        PlayerStats character = new() {
+            STR = str
+        };
+
+        PlayerStatsData characterData = Conversion.ConvertCharacter(character);
+        PlayerStats loadedCharacetr = Conversion.ConvertCharacter(characterData);
+
+        character.STR.Athletics.ProficiencyMultiplier.Should().Be(1);
     }
 }
