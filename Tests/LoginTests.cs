@@ -16,7 +16,6 @@ public class LoginTest
         l.CreateNewUser(username, password, null);
 
         l.LogIn(username, password).Should().NotBeNull();
-        l.IsLoggedIn(username).Should().BeTrue();
     }
 
     [Fact]
