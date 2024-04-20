@@ -34,8 +34,8 @@ public class AbilityBase {
 public class Skill {
     public int Mod { get; set; } = 0;
     public int ProficiencyMultiplier { get; set; }
-    private PlayerStats superParent { get; set; }
-    private AbilityBase parent { get; set; }
+    public PlayerStats superParent { get; set; }
+    public AbilityBase parent { get; set; }
 
     public int Modifier => Mod + parent.Modifier + (ProficiencyMultiplier * superParent.Proficiency);
 

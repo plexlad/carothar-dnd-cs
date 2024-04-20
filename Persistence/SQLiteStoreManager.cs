@@ -3,7 +3,8 @@ namespace Persistence;
 using SQLite;
 using Logic.Game;
 using Logic.Session;
-using Logic.Login;
+// For future reference if I want to write a login system
+// using Logic.Login;
 
 public class SQLiteStoreManager : IStorageManager
 {

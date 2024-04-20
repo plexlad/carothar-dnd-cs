@@ -48,4 +48,8 @@ public class SessionData
 {
     [PrimaryKey]
     public string Key { get; set; } 
+    public string Name { get; set; }
+    public string CreatedBy { get; set; }
+    public string Users { get; set; }
+    public string Characters { get; set; }
 }

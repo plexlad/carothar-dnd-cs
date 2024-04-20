@@ -10,12 +10,14 @@ using SimpleCrypto; // Uses the random password feature for the key
 public class Session
 {
     public string Name { get; set; }
-    public string Key { get; } // Used to invite and work with people
+    public string Key { get; init; } // Used to invite and work with people
     public string CreatedBy { get; set; } // Username of person who created this session
     public List<string> Users; // Users on the session
     public Dictionary<string, PlayerStats> Characters;
 
     public event Action SessionUpdated;
+
+    public Session() {}
 
     public Session(string name, string createdBy)
     {

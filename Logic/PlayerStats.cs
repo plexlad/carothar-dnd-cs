@@ -30,8 +30,8 @@ public class PlayerStats
 
     // The version can be used to update characters to the new version,
     // or even use the original version if updated
-    public int Version { get; } = 0;
-    public string Key { get; }
+    public int Version { get; init; } = 0;
+    public string Key { get; init; }
     public string PlayerName { get; set; }
     public string Name { get; set; }
     public string Description { get; set; } // Anything else that is not used

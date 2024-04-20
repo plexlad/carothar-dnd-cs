@@ -6,12 +6,14 @@ using Logic.Session;
 
 // This whole conversion class is convoluted, I know
 // but I do like the ability to use a format that I like.
-// I'm hoping to find a 
-public class Conversion 
+// I'm hoping to find a
+public class Conversion
 {
     public static PlayerStats ConvertCharacter(PlayerStatsData characterData)
     {
         PlayerStats character = new() {
+            Version = characterData.Version,
+            Key = characterData.Key,
             PlayerName = characterData.PlayerName,
             Name = characterData.Name,
             Description = characterData.Description,
@@ -34,24 +36,56 @@ public class Conversion
             IncludeFields = true,
         };
 
+        // References don't serialize
+
         // My lovely null handling with defaults
-        character.STR = JsonSerializer.Deserialize<STR>(characterData.STR, jsonOptions)
-            ?? new STR(character, 10, false, 0);
+        character.STR = JsonSerializer.Deserialize<STR>(characterData.STR, jsonOptions);
+        //character.STR.Athletics.parent = character.STR;
+        //character.STR.Athletics.superParent = character;
 
-        character.DEX = JsonSerializer.Deserialize<DEX>(characterData.DEX, jsonOptions)
-            ?? new DEX(character, 10, false, 0, 0, 0);
+        character.DEX = JsonSerializer.Deserialize<DEX>(characterData.DEX, jsonOptions);
+        //character.DEX.Acrobatics.parent = character.DEX;
+        //character.DEX.Acrobatics.superParent = character;
+        //character.DEX.SleightOfHand.parent = character.DEX;
+        //character.DEX.SleightOfHand.superParent = character;
+        //character.DEX.Stealth.parent = character.DEX;
+        //character.DEX.Stealth.superParent = character;
 
-        character.CON = JsonSerializer.Deserialize<CON>(characterData.CON, jsonOptions)
-            ?? new CON(10, false);
+        character.CON = JsonSerializer.Deserialize<CON>(characterData.CON, jsonOptions);
 
-        character.INT = JsonSerializer.Deserialize<INT>(characterData.INT, jsonOptions)
-            ?? new INT(character, 10, false, 0, 0, 0, 0, 0);
+        character.INT = JsonSerializer.Deserialize<INT>(characterData.INT, jsonOptions);
+        //character.INT.Arcana.parent = character.INT;
+        //character.INT.Arcana.superParent = character;
+        //character.INT.History.parent = character.INT;
+        //character.INT.History.superParent = character;
+        //character.INT.Investigation.parent = character.INT;
+        //character.INT.Investigation.superParent = character;
+        //character.INT.Nature.parent = character.INT;
+        //character.INT.Nature.superParent = character;
+        //character.INT.Religion.parent = character.INT;
+        //character.INT.Religion.superParent = character;
 
-        character.WIS = JsonSerializer.Deserialize<WIS>(characterData.WIS, jsonOptions)
-            ?? new WIS(character, 10, false, 0, 0, 0, 0, 0);
+        character.WIS = JsonSerializer.Deserialize<WIS>(characterData.WIS, jsonOptions);
+        //character.WIS.AnimalHandling.parent = character.WIS;
+        //character.WIS.AnimalHandling.superParent = character;
+        //character.WIS.Insight.parent = character.WIS;
+        //character.WIS.Insight.superParent = character;
+        //character.WIS.Medicine.parent = character.WIS;
+        //character.WIS.Medicine.superParent = character;
+        //character.WIS.Perception.parent = character.WIS;
+        //character.WIS.Perception.superParent = character;
+        //character.WIS.Survival.parent = character.WIS;
+        //character.WIS.Survival.superParent = character;
 
-        character.CHA = JsonSerializer.Deserialize<CHA>(characterData.CHA, jsonOptions)
-            ?? new CHA(character, 10, false, 0, 0, 0, 0);
+        character.CHA = JsonSerializer.Deserialize<CHA>(characterData.CHA, jsonOptions);
+        //character.CHA.Deception.parent = character.CHA;
+        //character.CHA.Deception.superParent = character;
+        //character.CHA.Intimidation.parent = character.CHA;
+        //character.CHA.Intimidation.superParent = character;
+        //character.CHA.Persuasion.parent = character.CHA;
+        //character.CHA.Persuasion.superParent = character;
+        //character.CHA.Performance.parent = character.CHA;
+        //character.CHA.Performance.superParent = character;
         
         return character;
     }
@@ -62,6 +96,8 @@ public class Conversion
     public static PlayerStatsData ConvertCharacter(PlayerStats character)
     {
         PlayerStatsData characterData = new() {
+            Version = character.Version,
+            Key = character.Key,
             PlayerName = character.PlayerName,
             Name = character.Name,
             Description = character.Description,
@@ -95,17 +131,33 @@ public class Conversion
 
         characterData.CHA = JsonSerializer.Serialize<CHA>(character.CHA)
             ?? JsonSerializer.Serialize(new CHA(character, 10, false, 0, 0, 0, 0));
-        
+
         return characterData;
     }
 
     public static Session ConvertSession(SessionData sessionData)
     {
-        return new Session("default", "SYSTEM");
+        Session session = new() {
+            Name = sessionData.Name,
+            Key = sessionData.Key,
+            CreatedBy = sessionData.CreatedBy,
+            Users = JsonSerializer.Deserialize<List<string>>(sessionData.Users),
+            Characters = JsonSerializer.Deserialize<Dictionary<string, PlayerStats>>(sessionData.Characters)
+        };
+
+        return session;
     }
 
     public static SessionData ConvertSession(Session session)
     {
-        return new SessionData();
+        SessionData sessionData = new() {
+            Name = session.Name,
+            Key = session.Key,
+            CreatedBy = session.CreatedBy,
+            Users = JsonSerializer.Serialize<List<string>>(session.Users),
+            Characters = JsonSerializer.Serialize<Dictionary<string, PlayerStats>>(session.Characters)
+        };
+
+        return sessionData;
     }
 }

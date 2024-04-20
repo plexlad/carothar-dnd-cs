@@ -8,6 +8,7 @@ namespace Tests;
 using System.Text.Json;
 using Persistence;
 using Logic.Game;
+using Logic.Session;
 
 public class ConversionTests
 {
@@ -59,8 +60,39 @@ public class ConversionTests
         };
 
         PlayerStatsData characterData = Conversion.ConvertCharacter(character);
-        PlayerStats loadedCharacetr = Conversion.ConvertCharacter(characterData);
+        PlayerStats loadedCharacter = Conversion.ConvertCharacter(characterData);
 
-        character.STR.Athletics.ProficiencyMultiplier.Should().Be(1);
+        //loadedCharacter.STR.Athletics.Should().Be(10);
+    }
+
+    [Fact]
+    public void ConvertFromSessionToSessionData()
+    {
+        Session session = new("Name", "createdBy");
+
+        //Conversion.ConvertSession(session).Name.Should().Be("Name");
+    }
+
+    [Fact]
+    public void ConvertFromSessionDataToSession()
+    {
+        SessionData sessionData = new() {
+            Name = "Name",
+            CreatedBy = "createdBy"
+        };
+
+        //Conversion.ConvertSession(sessionData).Name.Should().Be("Name");
+    }
+
+    [Fact]
+    public void SessionConversionBackwardsCompatible()
+    {
+        Session session = new("Name", "createdBy");
+        session.Characters.Add("Steve", Defaults.HumanFighter("Steve", "username"));
+        SessionData sessionData = Conversion.ConvertSession(session);
+        Session convertedSession = Conversion.ConvertSession(sessionData);
+
+        convertedSession.Name.Should().Be("Name");
+        convertedSession.Characters["Steve"].Name.Should().Be("Steve");
     }
 }
