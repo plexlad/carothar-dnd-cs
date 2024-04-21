@@ -3,8 +3,9 @@
 @using Logic.Game
 
 <PageTitle>Carothar - Join</PageTitle>
-
+<p>v Copy the key below to play with others and access your data later</p>
 <div>@key</div>
+<a href="/console?key=@key">DM Console (to look at all stats)</a>
 
 @if (loaded && (session is not null)) {
     <ul>
