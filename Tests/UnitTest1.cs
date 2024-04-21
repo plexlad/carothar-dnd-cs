@@ -53,8 +53,61 @@ public class GameLogicTests
         p.ClassInfo.Add(new ClassInfoEntry() { Level = 1 });
         STR str = new(p, 16, true, 1); // Simulates proficiency in strength
 
-        Assert.True(str.SavingThrow);
         str.SavingThrow.Should().BeTrue();
         str.Athletics.Modifier.Should().Be(5);
+    }
+
+    [Fact]
+    public void DEXInitializesProperly()
+    {
+        PlayerStats p = new();
+        p.ClassInfo.Add(new ClassInfoEntry() { Level = 1 });
+        DEX dex = new(p, 16, true, 1, 0, 0);
+
+        dex.SavingThrow.Should().BeTrue();
+        dex.Acrobatics.Modifier.Should().Be(5);
+    }
+
+    [Fact]
+    public void CONInitializesProperly()
+    {
+        PlayerStats p = new();
+        p.ClassInfo.Add(new ClassInfoEntry() { Level = 1 });
+        CON con = new(16, true);
+
+        con.SavingThrow.Should().BeTrue();
+    }
+
+    [Fact]
+    public void INTInitializesProperly()
+    {
+        PlayerStats p = new();
+        p.ClassInfo.Add(new ClassInfoEntry() { Level = 1 });
+        INT intelligence = new(p, 16, true, 1, 0, 0, 0, 0);
+
+        intelligence.SavingThrow.Should().BeTrue();
+        intelligence.Arcana.Modifier.Should().Be(5);
+    }
+
+    [Fact]
+    public void WISInitializesProperly()
+    {
+        PlayerStats p = new();
+        p.ClassInfo.Add(new ClassInfoEntry() { Level = 1 });
+        WIS wis = new(p, 16, true, 1, 0, 0, 0, 0);
+
+        wis.SavingThrow.Should().BeTrue();
+        wis.AnimalHandling.Modifier.Should().Be(5);
+    }
+
+    [Fact]
+    public void CHAInitializesProperly()
+    {
+        PlayerStats p = new();
+        p.ClassInfo.Add(new ClassInfoEntry() { Level = 1 });
+        CHA cha = new(p, 16, true, 1, 0, 0, 0);
+
+        cha.SavingThrow.Should().BeTrue();
+        cha.Deception.Modifier.Should().Be(5);
     }
 }
