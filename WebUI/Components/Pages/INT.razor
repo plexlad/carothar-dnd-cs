@@ -1,0 +1,24 @@
+<div>
+    <h3>Intelligence</h3>
+    
+    <ul>
+        <li><input type="number" @bind=@character.INT.Value/></li>
+        <li>Bonus: @displayModifier(character.INT.Modifier)</li>
+        <li>Saving Throw: <input type="checkbox" @bind=@character.INT.SavingThrow/></li>
+    </ul>
+
+    <SkillDisplay skill=@character.INT.Arcana name="Arcana"></SkillDisplay>
+    <SkillDisplay skill=@character.INT.History name="History"></SkillDisplay>
+    <SkillDisplay skill=@character.INT.Investigation name="Investigation"></SkillDisplay>
+    <SkillDisplay skill=@character.INT.Nature name="Nature"></SkillDisplay>
+    <SkillDisplay skill=@character.INT.Religion name="Religion"></SkillDisplay>
+</div>
+
+@code {
+    string displayModifier(int value) {
+        return value > 0 ? $"+{value}" : $"{value}";
+    }
+
+    [CascadingParameter]
+    public PlayerStats character { get; set; }
+}

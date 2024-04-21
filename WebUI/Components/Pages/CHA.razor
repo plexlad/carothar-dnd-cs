@@ -1,0 +1,23 @@
+<div>
+    <h3>Charisma</h3>
+    
+    <ul>
+        <li><input type="number" @bind=@character.CHA.Value/></li>
+        <li>Bonus: @displayModifier(character.CHA.Modifier)</li>
+        <li>Saving Throw: <input type="checkbox" @bind=@character.CHA.SavingThrow/></li>
+    </ul>
+
+    <SkillDisplay skill=@character.CHA.Deception name="Deception"></SkillDisplay>
+    <SkillDisplay skill=@character.CHA.Intimidation name="Intimidation"></SkillDisplay>
+    <SkillDisplay skill=@character.CHA.Performance name="Performance"></SkillDisplay>
+    <SkillDisplay skill=@character.CHA.Persuasion name="Persuasion"></SkillDisplay>
+</div>
+
+@code {
+    string displayModifier(int value) {
+        return value > 0 ? $"+{value}" : $"{value}";
+    }
+
+    [CascadingParameter]
+    public PlayerStats character { get; set; }
+}

@@ -35,9 +35,10 @@
     [SupplyParameterFromQuery]
     public string key { get; set; }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnInitialized()
     {
         session = SessionManager.Instance.GetSessionFromKey(key);
+        if (session is not null) session.SessionUpdated += () => InvokeAsync(StateHasChanged);
         loaded = true;
         InvokeAsync(StateHasChanged);
     }
@@ -49,6 +50,7 @@
 
     void playAsCharacter(PlayerStats character)
     {
+        session.UpdateSessionData();
         nav.NavigateTo($"/play?key={session.Key}&chardata={character.Key}");
     }
 }

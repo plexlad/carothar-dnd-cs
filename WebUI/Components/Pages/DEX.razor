@@ -1,0 +1,22 @@
+<div>
+    <h3>Dexterity</h3>
+    
+    <ul>
+        <li><input type="number" @bind=@character.DEX.Value/></li>
+        <li>Bonus: @displayModifier(character.DEX.Modifier)</li>
+        <li>Saving Throw: <input type="checkbox" @bind=@character.DEX.SavingThrow/></li>
+    </ul>
+
+    <SkillDisplay skill=@character.DEX.Acrobatics name="Acrobatics"></SkillDisplay>
+    <SkillDisplay skill=@character.DEX.SleightOfHand name="Sleight Of Hand"></SkillDisplay>
+    <SkillDisplay skill=@character.DEX.Stealth name="Stealth"></SkillDisplay>
+</div
+
+@code {
+    string displayModifier(int value) {
+        return value > 0 ? $"+{value}" : $"{value}";
+    }
+
+    [CascadingParameter]
+    public PlayerStats character { get; set; }
+}

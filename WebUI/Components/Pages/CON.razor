@@ -1,13 +1,11 @@
 <div>
-    <h3>Strength</h3>
+    <h3>Constitution</h3>
     
     <ul>
-        <li><input type="number" @bind=@character.STR.Value/></li>
-        <li>Bonus: @displayModifier(character.STR.Modifier)</li>
+        <li><input type="number" @bind=@character.CON.Value/></li>
+        <li>Bonus: @displayModifier(character.CON.Modifier)</li>
         <li>Saving Throw: <input type="checkbox" @bind=@character.STR.SavingThrow/></li>
     </ul>
-
-    <SkillDisplay skill=@character.STR.Athletics name="Athletics"></SkillDisplay>
 </div
 
 @code {

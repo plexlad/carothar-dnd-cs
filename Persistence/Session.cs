@@ -40,7 +40,10 @@ public class Session
 
     public PlayerStats? GetCharacter(string key)
     {
-        PlayerStats character;
-        return Characters.TryGetValue(key, out character!) ? character : null;
+        if (key is not null) {
+            PlayerStats character;
+            return Characters.TryGetValue(key, out character!) ? character : null;
+        }
+        return null;
     }
 }

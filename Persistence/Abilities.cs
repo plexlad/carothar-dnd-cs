@@ -32,7 +32,7 @@ public class AbilityBase {
 // The individual skills (proficiencies) that are a part of the AbilityBase
 // derived classes
 public class Skill {
-    public int Mod { get; set; } = 0;
+    public int Mod { get; set; }
     public int ProficiencyMultiplier { get; set; }
     public PlayerStats superParent { get; set; }
     public AbilityBase parent { get; set; }

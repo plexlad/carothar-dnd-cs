@@ -1,0 +1,17 @@
+<ul>
+    <li>@name: @displayModifier(skill.Modifier)</li>
+    <li>Modify: <input type="number" bind=@skill.Mod /></li>
+    <li>Multiplier: <input type="number" bind=@skill.ProficiencyMultiplier</li>
+</ul>
+
+@code {
+    string displayModifier(int value) {
+        return value > 0 ? $"+{value}" : $"{value}";
+    }
+
+    [Parameter]
+    public Skill skill { get; set; }
+
+    [Parameter]
+    public string name { get; set; }
+}

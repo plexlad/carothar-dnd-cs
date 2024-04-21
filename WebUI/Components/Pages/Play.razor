@@ -3,14 +3,17 @@
 @using Logic.Session
 @using Logic.Game
 
+<p>Key</p>
 <p>@key</p>
+<p>^ Copy this to play with friends</p>
 
 <h1>Play</h1>
 
 @if (loaded && (character is not null)) {
-    <button @onclick="saveCharacter">Save</button>
-    <h2>@character.Name</h2>
-    <p>@character.Description</p>
+    <button @onclick="saveCharacter">Save</button><br>
+    <input type="text" @bind=@character.Name /><br>
+    <input type="text" @bind=@character.Description />
+
     <ul>
         <li>@character.Race</li>
         <li><input type="text" @bind="character.Height" /></li>
@@ -24,6 +27,15 @@
         <li>AC <input type="number" @bind="character.AC"/></li>
         <li>Proficiency: @character.Proficiency</li>
     </ul>
+
+    <CascadingValue Value=@character>
+        <STR></STR>
+        <DEX></DEX>
+        <CON></CON>
+        <INT></INT>
+        <WIS></WIS>
+        <CHA></CHA>
+    </CascadingValue>
 
     <ul>
     @foreach(string item in character.Inventory) {
@@ -47,21 +59,14 @@
     [SupplyParameterFromQuery]
     public string? chardata { get; set; } // The key of the character
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override void OnInitialized()
     {
         session = SessionManager.Instance.GetSessionFromKey(key);
         character = session.GetCharacter(chardata);
-        
-        Action stateChange = () => {
-            InvokeAsync(StateHasChanged);
-        };
-    
 
-        if (session is not null) session.SessionUpdated += stateChange;
+        if (session is not null) session.SessionUpdated += () => InvokeAsync(StateHasChanged);
 
         loaded = true;
-
-        InvokeAsync(StateHasChanged);
     }
 
     void saveCharacter()
