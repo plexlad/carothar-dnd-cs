@@ -1,0 +1,40 @@
+<div>
+    <h2>@character.Name</h2>
+    <p>@character.PlayerName</p>
+    <a href="/play?key=@sessionKey&chardata=@character.Key">Character Details and Editing</a>
+
+    <ul>
+        <li>@character.Race</li>
+        <li>@character.Height</li>
+        <li>@character.Alignment</li>
+        <li>Level @character.Level</li>
+        <li>@character.ReturnClassList()</li>
+    </ul>
+
+    <ul>
+        <li>HP @character.HP / @character.TotalHP</li>
+        <li>AC @character.AC</li>
+        <li>Proficiency: @displayModifier(character.Proficiency)</li>
+    </ul>
+        
+    <ul>
+        <li>STR: Value @character.STR.Value Prof. @displayModifier(character.STR.Modifier)</li>
+        <li>DEX: Value @character.DEX.Value Prof. @displayModifier(character.DEX.Modifier)</li>
+        <li>CON: Value @character.CON.Value Prof. @displayModifier(character.CON.Modifier)</li>
+        <li>INT: Value @character.INT.Value Prof. @displayModifier(character.INT.Modifier)</li>
+        <li>WIS: Value @character.WIS.Value Prof. @displayModifier(character.WIS.Modifier)</li>
+        <li>CHA: Value @character.CHA.Value Prof. @displayModifier(character.CHA.Modifier)</li>
+    </ul>
+</div>
+
+@code {
+    string displayModifier(int value) {
+        return value > 0 ? $"+{value}" : $"{value}";
+    }
+
+    [Parameter]
+    public PlayerStats character { get; set; }
+
+    [Parameter]
+    public string sessionKey { get; set; }
+}

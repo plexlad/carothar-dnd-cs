@@ -8,6 +8,7 @@ using SimpleCrypto;
 // so users can access their character data
 public class Session
 {
+    private SQLiteStoreManager sm = new();
     public string Name { get; set; }
     public string Key { get; init; } // Used to invite and work with people
     public string CreatedBy { get; set; } // Username of person who created this session
@@ -16,9 +17,11 @@ public class Session
 
     public event Action SessionUpdated;
 
-    public Session() {}
+    public Session() {
+        SessionUpdated += () => sm.UpdateSession(this);
+    }
 
-    public Session(string name, string createdBy)
+    public Session(string name, string createdBy) : this()
     {
         Name = name;
         // Generates a unique key
@@ -30,12 +33,20 @@ public class Session
 
     public void UpdateSessionData()
     {
+        PlayerStats character;
+        foreach(KeyValuePair<string, PlayerStats> entry in Characters)
+        {
+            character = entry.Value;
+            sm.UpdateCharacter(character);
+        }
+
         SessionUpdated?.Invoke();
     }
 
     public void AddCharacter(PlayerStats character)
     {
         Characters.Add(character.Key, character);
+        sm.AddCharacter(character);
     }
 
     public PlayerStats? GetCharacter(string key)

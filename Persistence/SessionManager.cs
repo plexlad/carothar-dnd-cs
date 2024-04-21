@@ -1,12 +1,10 @@
-namespace Logic.Session;
-
-using Persistence;
+namespace Persistence;
 
 public class SessionManager
 {
     public static SessionManager Instance = new();
 
-    private static Dictionary<string, Session> Sessions = new();
+    public static Dictionary<string, Session> Sessions = new();
 
     // Returns reference to the newly created session
     public Session AddSession(string name, string username)
@@ -39,5 +37,11 @@ public class SessionManager
     public static bool SessionIdValid(string id)
     {
         return Sessions.ContainsKey(id);
+    }
+
+    public SessionManager()
+    {
+        SQLiteStoreManager sm = new();
+        Sessions = sm.GetAllSessions().ToDictionary(x => x.Key, x => x);
     }
 }

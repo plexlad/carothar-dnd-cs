@@ -1,0 +1,36 @@
+@page "/console"
+
+<p>Key</p>
+<p>@key</p>
+<p>^ Copy this to play with friends and access this later</p>
+
+<h1>DM Console</h1>
+
+@if (loaded && (session is not null)) {
+    @foreach(KeyValuePair<string, PlayerStats> entry in session.Characters) {
+        <ConsoleCharacter character=@entry.Value sessionKey=@key></ConsoleCharacter>
+    }
+} else if (loaded) {
+    <p>Invalid key.</p>
+} else {
+    <p>Loading...</p>
+}
+
+@code {
+    bool loaded = false;
+
+    Session? session;
+
+    protected override void OnInitialized()
+    {
+        session = SessionManager.Instance.GetSessionFromKey(key);
+
+        if (session is not null) session.SessionUpdated += () => InvokeAsync(StateHasChanged);
+
+        loaded = true;
+        InvokeAsync(StateHasChanged);
+    }
+
+    [SupplyParameterFromQuery]
+    public string key { get; set; }
+}

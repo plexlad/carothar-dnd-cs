@@ -34,10 +34,26 @@ public class SQLiteStoreManager : IStorageManager
         return characters;
     }
 
+    public IEnumerable<Session> GetAllSessions()
+    {
+        List<Session> sessions = new();
+        foreach(SessionData session in _connection.Table<SessionData>())
+        {
+            sessions.Add(Conversion.ConvertSession(session));
+        }
+        return sessions;
+    }
+
     public Session GetSession(string key)
     {
         SessionData data = _connection.Table<SessionData>().FirstOrDefault(x => x.Key == key);
         return Conversion.ConvertSession(data);
+    }
+
+    public void UpdateSession(Session session)
+    {
+        SessionData sessionData = Conversion.ConvertSession(session);
+        _connection.Update(sessionData);
     }
 
     public void UpdateCharacter(PlayerStats character)

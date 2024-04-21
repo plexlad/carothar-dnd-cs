@@ -1,6 +1,5 @@
 @page "/create"
 @inject NavigationManager nav
-@using Logic.Session
 @using Logic.Game
 
 <p>@key</p>
@@ -51,6 +50,7 @@
         };
 
         session.AddCharacter(character);
+        session.UpdateSessionData();
 
         nav.NavigateTo($"/play?key={key}&chardata={character.Key}");
     }

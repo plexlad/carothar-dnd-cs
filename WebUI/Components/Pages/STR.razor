@@ -5,9 +5,10 @@
         <li><input type="number" @bind=@character.STR.Value/></li>
         <li>Bonus: @displayModifier(character.STR.Modifier)</li>
         <li>Saving Throw: <input type="checkbox" @bind=@character.STR.SavingThrow/></li>
+        
     </ul>
 
-    <SkillDisplay skill=@character.STR.Athletics name="Athletics"></SkillDisplay>
+    <Skill skill=@character.STR.Athletics name="Athletics"></Skill>
 </div
 
 @code {

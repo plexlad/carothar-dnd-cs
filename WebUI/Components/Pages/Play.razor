@@ -1,15 +1,13 @@
 @page "/play"
 @inject NavigationManager nav
-@using Logic.Session
-@using Logic.Game
 
 <p>Key</p>
 <p>@key</p>
-<p>^ Copy this to play with friends</p>
+<p>^ Copy this to play with friends and to access this later</p>
 
 <h1>Play</h1>
 
-@if (loaded && (character is not null)) {
+@if (loaded && (session is not null) && (character is not null)) {
     <button @onclick="saveCharacter">Save</button><br>
     <input type="text" @bind=@character.Name /><br>
     <input type="text" @bind=@character.Description />
@@ -17,7 +15,7 @@
     <ul>
         <li>@character.Race</li>
         <li><input type="text" @bind="character.Height" /></li>
-        <li><input type="text" @bind="character.Alignment" /> </li>
+        <li><input type="text" @bind="character.Alignment" /></li>
         <li>Level @character.Level</li>
         <li>@character.ReturnClassList()</li>
     </ul>
@@ -25,7 +23,7 @@
     <ul>
         <li>HP<input type="number" @bind="character.HP"/> / <input type="number" @bind="character.TotalHP"/></li>
         <li>AC <input type="number" @bind="character.AC"/></li>
-        <li>Proficiency: @character.Proficiency</li>
+        <li>Proficiency: @displayModifier(character.Proficiency)</li>
     </ul>
 
     <CascadingValue Value=@character>
@@ -49,6 +47,10 @@
 }
 
 @code {
+    string displayModifier(int value) {
+        return value > 0 ? $"+{value}" : $"{value}";
+    }
+
     bool loaded = false;
 
     Session? session;
@@ -67,6 +69,7 @@
         if (session is not null) session.SessionUpdated += () => InvokeAsync(StateHasChanged);
 
         loaded = true;
+        InvokeAsync(StateHasChanged);
     }
 
     void saveCharacter()
