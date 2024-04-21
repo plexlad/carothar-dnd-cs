@@ -8,34 +8,8 @@
 
 <h1>Start</h1>
 
-@if (loaded) {
-    <p>@username</p>
-    <button @onclick="signOut">Sign Out</button>
-    <h2>Sessions</h2>
-    <ul>
-    @foreach(Session session in userSessions) {
-        <div style="block-inline">
-            <li>@session.Name (created by @session.CreatedBy)</li>
-            <button @onclick="() => joinSession(session.Key)">Join</button>
-        </div>
-    }
-    </ul>
-    @if (!addSessionEnable) {
-        <button @onclick="newSession">New Session</button>
-    }
-    else
-    {
-        <form @onsubmit="addSession">
-            <label for="sessionName">Name</label>
-            <input type="text" name="Session Name" id="sessionName" @bind="sessionName" required />
-            <input type="submit" name="Add" value="Create Session"/>
-        </form>
-    }
-} else if (loaded) {
-    <p>Invalid user info. Please log in.</p>
-} else {
-    <p>Loading...</p>
-}
+<form @onsubmit="">
+</form>
 
 @code {
     bool loaded = false;
@@ -46,39 +20,6 @@
     bool addSessionEnable = false;
     string sessionName;
     List<Session> userSessions = new();
-    
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        // Load base data
-        try {
-            username = await localStorage.GetItemAsync<string>("username");
-            password = await localStorage.GetItemAsync<string>("password");
-        } catch {
-            username = null;
-            password = null;
-        }
-
-        user = LoginManager.Instance.LogIn(username, password, true);
-        loaded = true;
-
-        // Load the users session data
-        if (user is not null)
-        {
-            foreach(string key in user.SessionKeys)
-            {
-                userSessions.Add(SessionManager.Instance.GetSessionFromKey(key));
-            }
-        }
-
-        InvokeAsync(StateHasChanged);
-    }
-
-    void signOut()
-    {
-        InvokeAsync(async () => await localStorage.RemoveItemAsync("username"));
-        InvokeAsync(async () => await localStorage.RemoveItemAsync("password"));
-        nav.NavigateTo("/login");
-    }
 
     void newSession()
     {

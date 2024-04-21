@@ -1,9 +1,5 @@
 namespace Persistence;
 
-using Logic.Game;
-using Logic.Session;
-using Logic.Login;
-
 // TODO: Add login later
 public interface IStorageManager
 {

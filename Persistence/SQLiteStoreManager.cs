@@ -1,8 +1,6 @@
 namespace Persistence;
 
 using SQLite;
-using Logic.Game;
-using Logic.Session;
 // For future reference if I want to write a login system
 // using Logic.Login;
 

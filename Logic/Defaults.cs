@@ -1,5 +1,7 @@
 namespace Logic.Game;
 
+using Persistence;
+
 public class Defaults
 {
     public static PlayerStats HumanFighter(string name, string playerName)

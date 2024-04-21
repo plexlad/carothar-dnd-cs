@@ -2,6 +2,7 @@
 namespace Logic.Login;
 
 using SimpleCrypto; // Encrytion library for VERY basic password hashing and salt
+using Persistence;
 
 public class User
 {

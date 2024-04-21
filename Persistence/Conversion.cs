@@ -1,8 +1,6 @@
 namespace Persistence;
 
 using System.Text.Json;
-using Logic.Game;
-using Logic.Session;
 
 // This whole conversion class is convoluted, I know
 // but I do like the ability to use a format that I like.

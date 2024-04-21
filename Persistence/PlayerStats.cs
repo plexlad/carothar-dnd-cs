@@ -1,9 +1,9 @@
-namespace Logic.Game;
+namespace Persistence;
 
 // For the event notifications
 using System.Collections.ObjectModel;
 using System.Text;
-using SimpleCrypto; // For key generation
+using SimpleCrypto;
 
 // Used for tuple stats for level info
 /// <summary>

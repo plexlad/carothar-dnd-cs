@@ -1,5 +1,7 @@
 namespace Logic.Session;
 
+using Persistence;
+
 public class SessionManager
 {
     public static SessionManager Instance = new();

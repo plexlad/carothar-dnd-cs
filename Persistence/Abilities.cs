@@ -1,7 +1,7 @@
-namespace Logic.Game;
+namespace Persistence;
 // This includes the definition for Ability base and the standard D&D classes
 
-using System.Text.Json;
+using SimpleCrypto;
 using System.Text.Json.Serialization;
 // AbilityBase is a set of utilities for any abilities
 // Already includes a private base _value (1-20) and _modifier bonus (-5 to 5)

@@ -1,9 +1,8 @@
 // These are the the instances of games that people can connect to
 // Use the instance manager to manage sets of instances
-namespace Logic.Session;
+namespace Persistence;
 
-using Logic.Game;
-using SimpleCrypto; // Uses the random password feature for the key
+using SimpleCrypto;
 
 // Session probably wasn't the greatest name, but it is persistantly stored
 // so users can access their character data

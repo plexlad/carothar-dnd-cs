@@ -9,18 +9,42 @@
 Welcome to Carothar, a collaborative app for real time viewing of D&D characters that allows collaboration between the players and DMs. Start by pressing the link below.
 </p>
 
-<button @onclick="signin">Login</button>
+<div>
+    <a href="/start">Create a new session</a>
+</div>
 
-<button @onclick="signup">Sign Up</button>
+@if (alertEnable) {
+    <div class=@alertClass>
+        @alertString
+    </div>
+}
+
+<div>
+    Join with a key...
+    <form @onsubmit="join">
+        <label for="key"></label>
+        <input type="text" id="key" @bind="key" maxwidth="16" required />
+        <input type="submit" value="Join" />
+    </form>
+</div>
 
 @code {
-    void signin()
-    {
-        nav.NavigateTo("/login");
-    }
+    string key;
 
-    void signup()
+    string alertString;
+    string alertClass;
+    bool alertEnable;
+
+    void join()
     {
-        nav.NavigateTo("/signup");
+        if (String.IsNullOrEmpty(key) || key.Any(char.IsWhiteSpace) || key.Any(char.IsDigit))
+        {
+            InvokeAsync(StateHasChanged);
+            alertEnable = true;
+            alertString = "Invalid key";
+            alertClass = "";
+            return;
+        }
+        nav.NavigateTo($"/join?key={key}");
     }
 }

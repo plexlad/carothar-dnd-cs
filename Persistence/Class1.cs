@@ -1,7 +1,6 @@
 ﻿namespace Persistence;
 
 using SQLite;
-using Logic.Game;
 using System.Collections.ObjectModel;
 
 [Table("Characters")]
