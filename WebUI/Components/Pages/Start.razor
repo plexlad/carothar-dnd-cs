@@ -1,40 +1,26 @@
 @page "/start"
 @inject NavigationManager nav
-@inject Blazored.LocalStorage.ILocalStorageService localStorage
-@using Logic.Login
-@using Logic.Session
 
 <PageTitle>Carothar - Start</PageTitle>
 
 <h1>Start</h1>
 
-<form @onsubmit="">
+<form @onsubmit="create">
+    <label for="sessionName">Session Name</label>
+    <input type="text" id="sessionName" name="Session Name" required @bind="sessionName"/>
+    <label for="username">Your Name</label>
+    <input type="text" id="username" name="Your Name" required @bind="username"/>
+    <input type="submit" value="Create and Continue"/>
 </form>
 
 @code {
     bool loaded = false;
-    string? username;
-    string? password;
-    User? user = null;
-
-    bool addSessionEnable = false;
     string sessionName;
-    List<Session> userSessions = new();
+    string username;
 
-    void newSession()
+    void create()
     {
-        addSessionEnable = true;
-    }
-
-    void addSession()
-    {
-        Session newSession = SessionManager.Instance.AddSession(sessionName, username);
-        user.AddSessionKey(newSession.Key);
-        joinSession(newSession.Key);
-    }
-
-    void joinSession(string id)
-    {
-        nav.NavigateTo($"/join?key={id}");
+        Session session = SessionManager.Instance.AddSession(sessionName, username);
+        nav.NavigateTo($"/join?key={session.Key}");
     }
 }
