@@ -2,7 +2,7 @@
 @inject NavigationManager nav
 @using Logic.Game
 
-<p>@key</p>
+<Nav key=@key />
 
 <h1>Create New Character</h1>
 @if (loaded && (session is not null)) {
@@ -39,7 +39,6 @@
     {
         loaded = true;
         session = SessionManager.Instance.GetSessionFromKey(key);
-        InvokeAsync(StateHasChanged);
     }
 
     void createCharacter()

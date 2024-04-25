@@ -1,13 +1,37 @@
 ﻿@page "/"
+@layout MainLayout
 @inject NavigationManager nav
+
+<Nav key="" />
 
 <PageTitle>Carothar - Home</PageTitle>
 
-<h1>Carothar 5e</h1>
+<h1 class="w-full text-4xl text-center">Carothar 5e</h1>
 
-<p>
-Welcome to Carothar, a collaborative app for real time viewing of D&D characters that allows collaboration between the players and DMs. Start by pressing the link below.
-</p>
+<div>
+    <p>
+        Welcome to Carothar, a collaborative app for real time viewing of D&D 
+        characters that allows collaboration between the players and DMs. To
+        start playing, check the buttons at the bottom.
+    </p>
+    <p>
+        If you are a beginner to D&D, <em>don't worry!</em> This website is just
+        a way to store your stats and play with others. It works mostly through
+        text boxes and a save button, which you already know how to use if you
+        have used Google. Other people or books can help you with the rules part.
+    </p>
+    <p>
+        This app works by using sessions. When you create or join a session, a 
+        key will be displayed at the top of the page. Copy that. Keep it somewhere
+        safe to access your session later, or send it to your friends to work
+        cooperatively in real time!
+    </p>
+    <p>
+        Once you join a session, you will be able to edit or view characters
+        from there! If there are elements that don't make sense, check out the
+        help page.
+    </p>
+</div>
 
 <div>
     <a href="/start">Create a new session</a>

@@ -1,15 +1,16 @@
 @page "/play"
 @inject NavigationManager nav
 
-<p>Key</p>
-<p>@key</p>
-<p>^ Copy this to play with friends and to access this later</p>
+<Nav key=@key />
 
 <a href="/join?key=@key">Go back to characters</a>
 
 <h1>Play</h1>
 
 @if (loaded && (session is not null) && (character is not null)) {
+    <p>Don't forget to press save!</p>
+    <p>Press the Characters button to go back.</p>
+
     <button @onclick="saveCharacter">Save</button><br>
     <input type="text" @bind=@character.Name /><br>
     <input type="text" @bind=@character.Description />
@@ -29,13 +30,15 @@
     </ul>
 
     <CascadingValue Value=@character>
-        <STR></STR>
-        <DEX></DEX>
-        <FORT></FORT>
-        <INT></INT>
-        <WIS></WIS>
-        <CHA></CHA>
+        <STR />
+        <DEX />
+        <FORT />
+        <INT />
+        <WIS />
+        <CHA />
     </CascadingValue>
+
+    <button @onclick="saveCharacter">Save</button><br>
 
     <ul>
     @foreach(string item in character.Inventory) {
@@ -71,7 +74,6 @@
         if (session is not null) session.SessionUpdated += () => InvokeAsync(StateHasChanged);
 
         loaded = true;
-        InvokeAsync(StateHasChanged);
     }
 
     void saveCharacter()

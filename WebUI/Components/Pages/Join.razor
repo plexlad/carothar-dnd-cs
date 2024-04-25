@@ -3,11 +3,11 @@
 @using Logic.Game
 
 <PageTitle>Carothar - Join</PageTitle>
-<p>v Copy the key below to play with others and access your data later</p>
-<div>@key</div>
-<a href="/console?key=@key">DM Console (to look at all stats)</a>
+
+<Nav key=@key />
 
 @if (loaded && (session is not null)) {
+    <h2 class="">@session.Name by @session.CreatedBy</h2>
     <ul>
         @foreach(string charKey in session.Characters.Keys.ToList()) {
             <li>
