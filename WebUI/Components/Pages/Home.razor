@@ -2,39 +2,53 @@
 @layout MainLayout
 @inject NavigationManager nav
 
-<Nav key="" />
+<!-- 
+    I know that the class names look horrendous. They are done with TailwindCSS
+-->
 
 <PageTitle>Carothar - Home</PageTitle>
 
-<h1 class="w-full text-4xl text-center">Carothar 5e</h1>
+<Nav key="" />
 
-<div>
-    <p>
-        Welcome to Carothar, a collaborative app for real time viewing of D&D 
-        characters that allows collaboration between the players and DMs. To
-        start playing, check the buttons at the bottom.
-    </p>
-    <p>
-        If you are a beginner to D&D, <em>don't worry!</em> This website is just
-        a way to store your stats and play with others. It works mostly through
-        text boxes and a save button, which you already know how to use if you
-        have used Google. Other people or books can help you with the rules part.
-    </p>
-    <p>
-        This app works by using sessions. When you create or join a session, a 
-        key will be displayed at the top of the page. Copy that. Keep it somewhere
-        safe to access your session later, or send it to your friends to work
-        cooperatively in real time!
-    </p>
-    <p>
-        Once you join a session, you will be able to edit or view characters
-        from there! If there are elements that don't make sense, check out the
-        help page.
-    </p>
+<h1 class="w-full text-4xl text-center my-8 font-serif">Carothar 5e</h1>
+
+<div class="w-full flex justify-center">
+    <div class="max-w-2xl">
+        <p class="text-lg p-2 px-4 font-serif">
+            Welcome to Carothar, a collaborative app for real time viewing of D&D 
+            characters that allows collaboration between the players and DMs. To
+            start playing, check the buttons at the bottom.
+        </p>
+        <p class="text-lg p-4 px-4 font-serif">
+            If you are a beginner to D&D, <em>don't worry!</em> This website is just
+            a way to store your stats and play with others. It works mostly through
+            text boxes and a save button, which you already know how to use if you
+            have used Google. Other people or books can help you with the rules part.
+        </p>
+        <p class="text-lg p-4 px-4 font-serif">
+            This app works by using sessions. When you create or join a session, a 
+            key will be displayed at the top of the page. Copy that. Keep it somewhere
+            safe to access your session later, or send it to your friends to work
+            cooperatively in real time!
+        </p>
+        <p class="text-lg p-4 px-4 font-serif">
+            Once you join a session, you will be able to edit or view characters
+            from there! If there are elements that don't make sense, check out the
+            help page.
+        </p>
+    </div>
 </div>
 
-<div>
-    <a href="/start">Create a new session</a>
+<div class="flex w-full justify-center">
+    <a class="transition ease-in-out hover:scale-110 duration-200 text-xl text-slate-600 font-serif m-8 py-2 px-4 bg-slate-200 hover:bg-slate-300 rounded-full border-2 border-slate-600" href="/start">Create a new session</a>
+</div>
+
+<div class="flex w-full justify-center font-serif">
+    <form @onsubmit="join">
+        <label class="w-full text-center text-slate-600" for="key">Join with a key...</label><br>
+        <input class="p-1 w-full border-2 border-slate-600 mb-2" type="text" id="key" @bind="key" maxwidth="16" required /><br>
+        <input class="transition ease-in-out duration-200 hover:bg-slate-300 text-lg text-slate-600 w-full bg-slate-200 border-2 border-slate-600" type="submit" value="Join" />
+    </form>
 </div>
 
 @if (alertEnable) {
@@ -42,16 +56,6 @@
         @alertString
     </div>
 }
-
-<div>
-    Join with a key...
-    <form @onsubmit="join">
-        <label for="key"></label>
-        <input type="text" id="key" @bind="key" maxwidth="16" required />
-        <input type="submit" value="Join" />
-    </form>
-</div>
-
 @code {
     string key;
 
