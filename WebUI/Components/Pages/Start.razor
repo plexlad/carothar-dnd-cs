@@ -3,15 +3,29 @@
 
 <PageTitle>Carothar - Start</PageTitle>
 
-<h1>Start</h1>
+<Nav key="" />
 
-<form @onsubmit="create">
-    <label for="sessionName">Session Name</label>
-    <input type="text" id="sessionName" name="Session Name" required @bind="sessionName"/>
-    <label for="username">Your Name</label>
-    <input type="text" id="username" name="Your Name" required @bind="username"/>
-    <input type="submit" value="Create and Continue"/>
-</form>
+<h1 class="w-full text-4xl text-center my-8 font-serif">Start</h1>
+
+<div class="w-full flex justify-center">
+    <div class="max-w-xl">
+        <p class="text-lg p-2 px-4 font-serif mb-8">
+            To begin, fill the info below and press the button. If you want to 
+            play with others, copy the code in the top right after you complete
+            this part!
+        </p>
+    </div>
+</div>
+
+<div class="flex w-full justify-center font-serif">
+    <form @onsubmit="create">
+        <label class="w-full text-center text-slate-600" for="sessionName">Session Name</label><br>
+        <input class="p-1 w-full border-2 border-slate-600 mb-2 text-slate-600" type="text" id="sessionName" name="Session Name" required @bind="sessionName"/><br>
+        <label class="w-full text-center text-slate-600" for="username">Your Name</label><br>
+        <input class="p-1 w-full border-2 border-slate-600 mb-2 text-slate-600" type="text" id="username" name="Your Name" required @bind="username"/><br>
+        <input class="transition ease-in-out duration-200 hover:bg-slate-300 text-lg text-slate-600 w-full bg-slate-200 border-2 border-slate-600" type="submit" value="Create and Continue"/>
+    </form>
+</div>
 
 @code {
     bool loaded = false;

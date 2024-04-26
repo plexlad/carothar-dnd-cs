@@ -6,19 +6,41 @@
 
 <Nav key=@key />
 
+<h1 class="w-full text-4xl text-center my-8 font-serif">Session</h1>
+
 @if (loaded && (session is not null)) {
-    <h2 class="">@session.Name by @session.CreatedBy</h2>
+    <div class="w-full flex justify-center">
+        <div class="max-w-xl">
+            <p class="text-xl p-2 px-4 font-serif mb-8">
+                This is where you can view and edit your characters! Press join
+                on a character to use their menu or press the add character
+                button to create a new one.
+            </p>
+        </div>
+    </div>
+
+    <div class="w-full flex justify-center">
+        <h2 class="w-full mb-4 text-2xl text-center font-serif">@session.Name <span class="text-slate-500">by</span> @session.CreatedBy</h2>
+    </div>
+
     <ul>
         @foreach(string charKey in session.Characters.Keys.ToList()) {
             <li>
-                <button @onclick="() => playAsCharacter(session.Characters[charKey])">Join</button>
-                @session.Characters[charKey].Name (@session.Characters[charKey].PlayerName)
+                <div class="w-full flex justify-center mb-2">
+                    <button class="transition ease-in-out duration-200 hover:bg-slate-300 text-md py-1 px-2 text-slate-600 bg-slate-200 border-2 border-slate-600" @onclick="() => playAsCharacter(session.Characters[charKey])">Join</button>
+                    <span class="p-1 font-serif font-serif text-md">@session.Characters[charKey].Name (@session.Characters[charKey].PlayerName)</span>
+                </div>
             </li>
         }
-        <li><button @onclick="addCharacter">Add Character & Continue</button></li>
+
+        <div class="w-full flex justify-center">
+            <li><button class="transition ease-in-out hover:scale-110 duration-200 text-lg text-slate-600 font-serif py-2 px-4 bg-slate-200 hover:bg-slate-300 rounded-full border-2 border-slate-600" @onclick="addCharacter">Add Character & Continue</button></li>
+        </div>
     </ul>
 } else if (loaded) {
-    <p>Invalid key</p>
+    <div class="w-full flex justify-center">
+        <p class="font-serif">Invalid key</p>
+    </div>
 } else {
     <p>Loading...</p>
 }

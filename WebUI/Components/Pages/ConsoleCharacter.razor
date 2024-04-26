@@ -1,30 +1,81 @@
 <div>
-    <h2>@character.Name</h2>
-    <p>@character.PlayerName</p>
-    <a href="/play?key=@sessionKey&chardata=@character.Key">Character Details and Editing</a>
+    <h2 class="w-full text-2xl text-center my-4 font-serif">@character.Name (@character.PlayerName)</h2>
 
-    <ul>
-        <li>@character.Race</li>
-        <li>@character.Height</li>
-        <li>@character.Alignment</li>
-        <li>Level @character.Level</li>
-        <li>@character.ReturnClassList()</li>
-    </ul>
+    <div class="w-full flex justify-center">
+        <a class="transition ease-in-out hover:scale-110 duration-200 text-md text-slate-600 font-serif my-2 py-2 px-4 bg-slate-200 hover:bg-slate-300 rounded-full border-2 border-slate-600" href="/play?key=@sessionKey&chardata=@character.Key">Edit Character (@character.Name)</a>
+    </div>
 
-    <ul>
-        <li>HP @character.HP / @character.TotalHP</li>
-        <li>AC @character.AC</li>
-        <li>Proficiency: @displayModifier(character.Proficiency)</li>
-    </ul>
-        
-    <ul>
-        <li>STR: Value @character.STR.Value Prof. @displayModifier(character.STR.Modifier)</li>
-        <li>DEX: Value @character.DEX.Value Prof. @displayModifier(character.DEX.Modifier)</li>
-        <li>CON: Value @character.CON.Value Prof. @displayModifier(character.CON.Modifier)</li>
-        <li>INT: Value @character.INT.Value Prof. @displayModifier(character.INT.Modifier)</li>
-        <li>WIS: Value @character.WIS.Value Prof. @displayModifier(character.WIS.Modifier)</li>
-        <li>CHA: Value @character.CHA.Value Prof. @displayModifier(character.CHA.Modifier)</li>
-    </ul>
+    <div class="w-full flex justify-center overflow-x-auto">
+        <div class="max-w-2xl">
+            <table class="w-full text-md text-center font-serif table-auto">
+                <tr>
+                    <th scope="col" class="px-6 py-3">Race</th>
+                    <th scope="col" class="px-6 py-3">Height</th>
+                    <th scope="col" class="px-6 py-3">Alignment</th>
+                    <th scope="col" class="px-6 py-3">Level</th>
+                    <th scope="col" class="px-6 py-3">Class Info</th>
+                </tr>
+                <tr>
+                    <td>@character.Race</td>
+                    <td>@character.Height</td>
+                    <td>@character.Alignment</td>
+                    <td>@character.Level</td>
+                    <td>@character.ReturnClassList()</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="w-full flex justify-center overflow-x-auto">
+        <div class="max-w-xl">
+            <table class="w-full text-md text-center font-serif table-auto">
+                <tr>
+                    <th scope="col" class="px-6 py-3">HP</th>
+                    <th scope="col" class="px-6 py-3">AC</th>
+                    <th scope="col" class="px-6 py-3">Prof.</th>
+                </tr>
+                <tr>
+                    <td>@character.HP / @character.TotalHP</td>
+                    <td>@character.AC</td>
+                    <td>@displayModifier(character.Proficiency)</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="w-full flex justify-center overflow-x-auto">
+        <div class="max-w-xl">
+            <table class="w-full text-md text-center font-serif table-auto">
+                <tr>
+                    <th></th>
+                    <th scope="col" class="px-6 py-3">STR</th>
+                    <th scope="col" class="px-6 py-3">DEX</th>
+                    <th scope="col" class="px-6 py-3">CON</th>
+                    <th scope="col" class="px-6 py-3">INT</th>
+                    <th scope="col" class="px-6 py-3">WIS</th>
+                    <th scope="col" class="px-6 py-3">CHA</th>
+                </tr>
+                <tr>
+                    <td class="text-right">Value</td>
+                    <td>@character.STR.Value</td>
+                    <td>@character.DEX.Value</td>
+                    <td>@character.CON.Value</td>
+                    <td>@character.INT.Value</td>
+                    <td>@character.WIS.Value</td>
+                    <td>@character.CHA.Value</td>
+                </tr>
+                <tr>
+                    <td class="text-right">Modifer</td>
+                    <td>@displayModifier(character.STR.Modifier)</td>
+                    <td>@displayModifier(character.DEX.Modifier)</td>
+                    <td>@displayModifier(character.CON.Modifier)</td>
+                    <td>@displayModifier(character.INT.Modifier)</td>
+                    <td>@displayModifier(character.WIS.Modifier)</td>
+                    <td>@displayModifier(character.CHA.Modifier)</td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
 
 @code {

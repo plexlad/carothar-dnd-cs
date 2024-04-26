@@ -3,9 +3,7 @@
 
 <Nav key=@key />
 
-<a href="/join?key=@key">Go back to characters</a>
-
-<h1>Play</h1>
+<h1 class="w-full text-4xl text-center my-8 font-serif">Play</h1>
 
 @if (loaded && (session is not null) && (character is not null)) {
     <p>Don't forget to press save!</p>
@@ -46,7 +44,7 @@
     }
     </ul>
 } else if (loaded) {
-    <p>Invalid key(s).</p>
+    <p class="font-serif">Invalid key(s). Refresh this page or create a valid session.</p>
 } else {
     <p>Loading...</p>
 }

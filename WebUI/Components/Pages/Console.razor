@@ -2,7 +2,16 @@
 
 <Nav key=@key />
 
-<h1>DM Console</h1>
+<h1 class="w-full text-4xl text-center my-8 font-serif">GM Screen</h1>
+
+<div class="w-full flex justify-center">
+    <div class="max-w-xl">
+        <p class="text-lg p-2 px-4 font-serif">
+            This is the GM Screen! This is an admin page to view all of the characters
+            info for use by the game master. If you see nothing, go make some characters!
+        </p>
+    </div>
+</div>
 
 @if (loaded && (session is not null)) {
     @foreach(KeyValuePair<string, PlayerStats> entry in session.Characters) {

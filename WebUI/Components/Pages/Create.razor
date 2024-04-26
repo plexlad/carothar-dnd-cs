@@ -4,19 +4,23 @@
 
 <Nav key=@key />
 
-<h1>Create New Character</h1>
+<h1 class="w-full text-4xl text-center my-8 font-serif">Create New Character</h1>
+
 @if (loaded && (session is not null)) {
-    <form @onsubmit="createCharacter">
-        <label for="name">Name</label><br>
-        <input @bind="characterName" type="text" id="name" name="name" placeholder="Jimbo"/><br>
-        <label for="playerName">Player's Name</label><br>
-        <input @bind="playerName" type="text" id="playerName" name="Player Name" placeholder="Jonathan"/><br>
-        <label for="characterSelect">Choose Default</label><br>
-        <select @bind="characterSelect" name="Character Select" id="characterSelect">
-            <option value="humanfighter">Human Fighter</option>
-        </select><br>
-        <input type="submit" value="Create"/>
-    </form>
+
+    <div class="w-full flex justify-center">
+        <form @onsubmit="createCharacter">
+            <label class="w-full text-center text-slate-600 font-serif" for="name">Name</label><br>
+            <input class="p-1 w-full border-2 border-slate-600 mb-2 text-slate-600" @bind="characterName" type="text" id="name" name="name" placeholder="Jimbo"/><br>
+            <label class="w-full text-center text-slate-600 font-serif" for="playerName">Player's Name</label><br>
+            <input class="p-1 w-full border-2 border-slate-600 mb-2 text-slate-600" @bind="playerName" type="text" id="playerName" name="Player Name" placeholder="Jonathan"/><br>
+            <label for="characterSelect">Choose Default</label><br>
+            <select @bind="characterSelect" name="Character Select" id="characterSelect">
+                <option value="humanfighter">Human Fighter</option>
+            </select><br>
+            <input class="transition ease-in-out hover:scale-110 duration-200 text-md text-slate-600 font-serif w-full mt-4 py-2 px-4 bg-slate-200 hover:bg-slate-300 rounded-full border-2 border-slate-600" type="submit" value="Create"/>
+        </form>
+    </div>
 } else if (loaded) {
     <p>Invalid key.</p>
 } else {
